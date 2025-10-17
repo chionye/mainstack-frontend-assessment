@@ -6,20 +6,13 @@ import NavItem from "./NavItem";
 import AppsDropdown from "./AppsDropdown";
 import MenuIcons from "./MenuIcons";
 import UserMenu from "./UserMenu";
-import Query from "@/api/query";
-import { BASE_URL, USERS } from "@/constants/endpoints";
 import { NavItems, AppItems, MenuItems, MenuIcon } from "@/utils/page-props";
+import { useUser } from "@/api/hooks/useUser";
 
 const Header = () => {
-  const queryParamsArray = [
-    {
-      id: "user",
-      url: `${BASE_URL}${USERS}`,
-    },
-  ];
-  const { queries } = Query(queryParamsArray);
+  const { data: userData } = useUser();
 
-  const userData = queries[0]?.data?.data;
+  console.log(userData);
 
   // Show loading state or return null if user data is not available
   if (!userData) {

@@ -1,7 +1,7 @@
 /** @format */
 
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useQueries } from "@tanstack/react-query";
+import { API } from "./client";
 
 interface QueryParam {
   id: string;
@@ -9,17 +9,17 @@ interface QueryParam {
 }
 
 const Query = (queryParamsArray: QueryParam[]) => {
-  const queries = queryParamsArray.map((param) =>
-    useQuery({
+  const queries = useQueries({
+    queries: queryParamsArray.map((param) => ({
       queryKey: [param.id],
       queryFn: async () => {
-        const response = await axios.get(param.url);
+        const response = await API.get(param.url);
         return response.data;
       },
-      staleTime: 5 * 60 * 1000, // 5 minutes
+      staleTime: 5 * 60 * 1000,
       retry: 2,
-    })
-  );
+    })),
+  });
 
   return { queries };
 };
