@@ -10,7 +10,7 @@ export const useUser = () => {
     queryKey: ["user"],
     queryFn: async () => {
       const { data } = await API.get(USERS);
-      return data.data;
+      return data;
     },
     retry: 2,
     staleTime: 5 * 60 * 1000,

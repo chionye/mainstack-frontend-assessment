@@ -1,87 +1,31 @@
 /** @format */
 
 import { Box, Flex, Container } from "@chakra-ui/react";
-import Logo from "./Logo";
-import NavItem from "./NavItem";
-import AppsDropdown from "./AppsDropdown";
-import MenuIcons from "./MenuIcons";
+import { useColorModeValue } from "@/components/ui/color-mode";
 import UserMenu from "./UserMenu";
-import { NavItems, AppItems, MenuItems, MenuIcon } from "@/utils/page-props";
-import { useUser } from "@/api/hooks/useUser";
+import Navigation from "./Navigation";
+import { Icons } from "@/constants/icons";
 
 const Header = () => {
-  const { data: userData } = useUser();
-
-  console.log(userData);
-
-  // Show loading state or return null if user data is not available
-  if (!userData) {
-    return (
-      <Box
-        as='header'
-        w='full'
-        borderBottom='1px'
-        borderColor='gray.200'
-        bg='white'
-        position='sticky'
-        top={0}
-        zIndex={1000}>
-        <Container maxW='container.xl' py={4}>
-          <Flex align='center' justify='space-between'>
-            <Logo />
-          </Flex>
-        </Container>
-      </Box>
-    );
-  }
+  const bgColor = useColorModeValue("white", "gray.800");
+  const shadowColor = useColorModeValue("md", "dark-lg");
 
   return (
-    <Box
-      as='header'
-      w='full'
-      borderBottom='1px'
-      borderColor='gray.200'
-      bg='white'
-      position='sticky'
-      top={0}
-      zIndex={1000}>
-      <Container maxW='container.xl' py={4}>
-        <Flex align='center' justify='space-between' gap={8}>
-          {/* Logo */}
-          <Box flexShrink={0}>
-            <Logo />
-          </Box>
-
-          {/* Navigation */}
-          <Flex
-            as='nav'
-            align='center'
-            gap={2}
-            flex={1}
-            display={{ base: "none", lg: "flex" }}>
-            {NavItems.map(
-              (
-                item: { label: string; link: string; icon: string },
-                index: number
-              ) =>
-                item.label !== "Apps" ? (
-                  <NavItem
-                    key={index}
-                    label={item.label}
-                    link={item.link}
-                    icon={item.icon}
-                  />
-                ) : (
-                  <AppsDropdown key={index} appItems={AppItems} />
-                )
-            )}
+    <Box p={2} w='full'>
+      <Container maxW='container.xl'>
+        <Flex
+          bg={bgColor}
+          boxShadow={shadowColor}
+          borderRadius='full'
+          px={3}
+          py={2}
+          align='center'
+          justify='space-between'>
+          <Flex align='center'>
+            <Icons.logo />
           </Flex>
-
-          {/* Right Menu */}
-          <Flex align='center' gap={2} flexShrink={0}>
-            <MenuIcons icons={MenuIcon} />
-            <UserMenu user={userData} menuItems={MenuItems} />
-          </Flex>
+          <Navigation />
+          <UserMenu />
         </Flex>
       </Container>
     </Box>

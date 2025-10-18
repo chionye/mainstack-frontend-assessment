@@ -1,9 +1,16 @@
 /** @format */
 
+import type { Icons } from "@/constants/icons";
+
 export interface NavItem {
   label: string;
   link: string;
-  icon: string;
+  icon: keyof typeof Icons;
+}
+
+export interface UserAvatarProps {
+  initials: string;
+  size?: "sm" | "md";
 }
 
 export interface AppItem {
@@ -20,11 +27,22 @@ export interface MenuItem {
 }
 
 export interface MenuIconItem {
-  icon: string;
+  icon: keyof typeof Icons;
 }
 
 export interface User {
   first_name: string;
   last_name: string;
   email: string;
+}
+
+export interface NavItem {
+  label: string;
+  link: string;
+  icon: keyof typeof Icons;
+}
+
+export interface IconButtonProps {
+  icon: keyof typeof Icons;
+  onClick?: () => void;
 }

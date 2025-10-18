@@ -1,28 +1,35 @@
 /** @format */
 
+import { Icons } from "@/constants/icons";
+
 // Navigation items for the header
 export const NavItems = [
   {
     label: "Home",
     link: "/",
-    icon: "ic:outline-home",
+    icon: "home" as keyof typeof Icons,
   },
   {
     label: "Analytics",
     link: "/analytics",
-    icon: "carbon:analytics",
+    icon: "analytics" as keyof typeof Icons,
   },
   {
     label: "Revenue",
     link: "/revenue",
-    icon: "mdi:cash-multiple",
+    icon: "revenue" as keyof typeof Icons,
+  },
+  {
+    label: "CRM",
+    link: "/crm",
+    icon: "crm" as keyof typeof Icons,
   },
   {
     label: "Apps",
     link: "#",
-    icon: "fluent:apps-32-regular",
+    icon: "apps" as keyof typeof Icons,
   },
-];
+] as const;
 
 // App items for the Apps dropdown
 export const AppItems = [
@@ -83,9 +90,9 @@ export const MenuItems = [
 // Menu icons for the header
 export const MenuIcon = [
   {
-    icon: "iconamoon:notification-light",
+    icon: "bell" as keyof typeof Icons,
   },
   {
-    icon: "mingcute:mail-line",
+    icon: "message" as keyof typeof Icons,
   },
 ];

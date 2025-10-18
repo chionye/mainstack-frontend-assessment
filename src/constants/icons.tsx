@@ -1,7 +1,7 @@
 /** @format */
 
-export const icons = {
-  link: ({ size = "24" }: { size: string }) => (
+export const Icons = {
+  link: ({ size = "24" }: { size?: string }) => (
     <svg
       width={size}
       height={size}
@@ -58,7 +58,7 @@ export const icons = {
       </defs>
     </svg>
   ),
-  store: ({ size = "24" }: { size: string }) => (
+  store: ({ size = "24" }: { size?: string }) => (
     <svg
       width={size}
       height={size}
@@ -111,7 +111,7 @@ export const icons = {
       </defs>
     </svg>
   ),
-  mediaKit: ({ size = "24" }: { size: string }) => (
+  mediaKit: ({ size = "24" }: { size?: string }) => (
     <svg
       width={size}
       height={size}
@@ -164,7 +164,7 @@ export const icons = {
       </defs>
     </svg>
   ),
-  invoicing: ({ size = "24" }: { size: string }) => (
+  invoicing: ({ size = "24" }: { size?: string }) => (
     <svg
       width={size}
       height={size}
@@ -221,8 +221,8 @@ export const icons = {
     size = "36",
     color = "#131316",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -256,8 +256,8 @@ export const icons = {
     size = "20",
     color = "#56616B",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -287,8 +287,8 @@ export const icons = {
     size = "20",
     color = "#56616B",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -318,8 +318,8 @@ export const icons = {
     size = "20",
     color = "white",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -349,8 +349,8 @@ export const icons = {
     size = "20",
     color = "#56616B",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -380,8 +380,8 @@ export const icons = {
     size = "20",
     color = "#56616B",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -411,8 +411,8 @@ export const icons = {
     size = "20",
     color = "#56616B",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -442,8 +442,8 @@ export const icons = {
     size = "20",
     color = "#56616B",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -473,8 +473,8 @@ export const icons = {
     size = "20",
     color = "#888F95",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -504,8 +504,8 @@ export const icons = {
     size = "20",
     color = "#131316",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -535,8 +535,8 @@ export const icons = {
     size = "20",
     color = "#131316",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -566,8 +566,8 @@ export const icons = {
     size = "21",
     color = "#075132",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -597,8 +597,8 @@ export const icons = {
     size = "24",
     color = "#56616B",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -628,8 +628,8 @@ export const icons = {
     size = "24",
     color = "#131316",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}
@@ -655,7 +655,7 @@ export const icons = {
       </g>
     </svg>
   ),
-  scroll: ({ size = "24" }: { size: string }) => (
+  scroll: ({ size = "24" }: { size?: string }) => (
     <svg
       width={size}
       height={size}
@@ -696,8 +696,8 @@ export const icons = {
     size = "21",
     color = "#961100",
   }: {
-    size: string;
-    color: string;
+    size?: string;
+    color?: string;
   }) => (
     <svg
       width={size}

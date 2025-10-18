@@ -7,7 +7,7 @@ import Header from "@/components/layout/header/Header";
 const Layout = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <Box md={{ px: "32px" }} mt='144px'>
+      <Box md={{ px: "32px" }} lg={{ px: "24px" }}>
         <Header />
         <Outlet />
       </Box>

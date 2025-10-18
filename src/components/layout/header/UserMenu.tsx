@@ -1,134 +1,115 @@
 /** @format */
 
 import {
-  Button,
-  Flex,
+  HStack,
   Menu,
-  Text,
+  Button,
   Box,
+  VStack,
+  Text,
+  Separator,
 } from "@chakra-ui/react";
-import { NavLink } from "react-router-dom";
+import { useColorModeValue } from "@/components/ui/color-mode";
+import { Link as RouterLink } from "react-router-dom";
 import { Icon } from "@iconify-icon/react";
+import { MenuItems, MenuIcon } from "@/utils/page-props";
+import { useUser } from "@/api/hooks/useUser";
 import { generateUserInitials } from "@/services/helpers";
+import IconButton from "./IconButton";
+import UserAvatar from "./UserAvatar";
+import type { MenuItem } from "./types";
+import type { Icons } from "@/constants/icons";
 
-interface User {
-  first_name: string;
-  last_name: string;
-  email: string;
-}
+const UserMenu = () => {
+  const { data: user } = useUser();
+  const menuBg = useColorModeValue("white", "gray.800");
+  const titleColor = useColorModeValue("#131316", "white");
+  const subtitleColor = useColorModeValue("#56616B", "gray.400");
+  const hoverBg = useColorModeValue("#EFF1F6", "gray.700");
 
-interface MenuItemType {
-  label: string;
-  link: string;
-  icon: string;
-}
-
-interface UserMenuProps {
-  user: User;
-  menuItems: MenuItemType[];
-}
-
-const UserMenu = ({ user, menuItems }: UserMenuProps) => {
-  const fullName = `${user.first_name} ${user.last_name}`;
-  const initials = generateUserInitials(fullName);
+  const userInitials = user
+    ? generateUserInitials(`${user.first_name} ${user.last_name}`)
+    : "OJ";
+  const userName = user ? `${user.first_name} ${user.last_name}` : "";
+  const userEmail = user?.email || "";
 
   return (
-    <Menu.Root>
-      <Menu.Trigger asChild>
-        <Button
-          variant="ghost"
-          bg="#EFF1F6"
-          borderRadius="full"
-          p={1}
-          h="auto"
-          minW="auto"
-          _hover={{
-            bg: "#E0E4E9",
-          }}
-          _active={{
-            bg: "#E0E4E9",
-          }}
-        >
-          <Flex align="center" gap={2}>
-            <Flex
-              align="center"
-              justify="center"
-              w="32px"
-              h="32px"
-              borderRadius="full"
-              bg="#FF5403"
-              color="white"
-              fontSize="12px"
-              fontWeight="bold"
-            >
-              {initials}
-            </Flex>
-            <Flex align="center" justify="center" w="28px" h="28px">
-              <Icon icon="material-symbols-light:menu" width="20" height="20" />
-            </Flex>
-          </Flex>
-        </Button>
-      </Menu.Trigger>
-      <Menu.Positioner>
-        <Menu.Content maxW={{ base: "full", md: "23.125rem" }} p={0}>
-          {/* User Info Section */}
-          <Box px={4} py={3} borderBottom="1px" borderColor="gray.200">
-            <Flex align="center" gap={3}>
-              <Flex
-                align="center"
-                justify="center"
-                w="40px"
-                h="40px"
-                borderRadius="full"
-                bg="#FF5403"
-                color="white"
-                fontSize="14px"
-                fontWeight="bold"
-                flexShrink={0}
-              >
-                {initials}
-              </Flex>
-              <Flex direction="column" gap={1}>
-                <Text fontSize="14px" fontWeight="semibold" color="#131316">
-                  {fullName}
-                </Text>
-                <Text fontSize="13px" color="#56616B">
-                  {user.email}
-                </Text>
-              </Flex>
-            </Flex>
-          </Box>
+    <HStack gap={3} color={subtitleColor}>
+      {/* Icon Buttons */}
+      {MenuIcon.map((item: { icon: keyof typeof Icons }, index: number) => (
+        <IconButton key={index} icon={item.icon} />
+      ))}
 
-          {/* Menu Items */}
-          {menuItems.map((item, index) => (
-            <Menu.Item key={index} value={item.link} asChild>
-              <NavLink
-                to={item.link}
-                style={{ width: "100%", textDecoration: "none" }}
-              >
-                <Flex
-                  align="center"
-                  gap={3}
-                  px={4}
-                  py={3}
-                  w="full"
-                  _hover={{
-                    bg: "#F9FAFB",
-                  }}
-                  transition="background 0.2s"
-                  cursor="pointer"
-                >
-                  <Icon icon={item.icon} width="20" height="20" />
-                  <Text fontSize="14px" color="#131316">
-                    {item.label}
+      {/* User Menu Dropdown */}
+      <Menu.Root>
+        <Menu.Trigger asChild>
+          <Button
+            variant='ghost'
+            bg={hoverBg}
+            p={1}
+            borderRadius='full'
+            _hover={{ bg: hoverBg }}
+            _active={{ bg: hoverBg }}
+            minW='auto'>
+            <HStack gap={2}>
+              <UserAvatar initials={userInitials} size='sm' />
+              <Box w='28px' h='28px' display='flex' alignItems='center'>
+                <Icon icon='material-symbols-light:menu' width='20' height='20' />
+              </Box>
+            </HStack>
+          </Button>
+        </Menu.Trigger>
+
+        <Menu.Positioner>
+          <Menu.Content
+            bg={menuBg}
+            borderRadius='xl'
+            boxShadow='lg'
+            p={3}
+            minW={{ base: "90vw", md: "23.125rem" }}
+            border='none'>
+            {/* User Info */}
+            <Box py={3} px={2}>
+              <HStack gap={3}>
+                <UserAvatar initials={userInitials} size='md' />
+                <VStack align='flex-start' gap={2}>
+                  <Text color={titleColor} fontSize='16px'>
+                    {userName}
                   </Text>
-                </Flex>
-              </NavLink>
-            </Menu.Item>
-          ))}
-        </Menu.Content>
-      </Menu.Positioner>
-    </Menu.Root>
+                  <Text color={subtitleColor} fontSize='14px'>
+                    {userEmail}
+                  </Text>
+                </VStack>
+              </HStack>
+            </Box>
+
+            <Separator my={2} />
+
+            {/* Menu Items */}
+            {MenuItems.map((item: MenuItem, index: number) => (
+              <Menu.Item key={index} value={item.link} asChild>
+                <RouterLink to={item.link}>
+                  <Box
+                    py={3}
+                    px={2}
+                    borderRadius='md'
+                    _hover={{ bg: hoverBg }}
+                    bg='transparent'
+                    cursor='pointer'>
+                    <HStack gap={3} py={1}>
+                      <Icon icon={item.icon} width='20' height='20' />
+                      <Text color={titleColor} fontWeight='600' fontSize='16px'>
+                        {item.label}
+                      </Text>
+                    </HStack>
+                  </Box>
+                </RouterLink>
+              </Menu.Item>
+            ))}
+          </Menu.Content>
+        </Menu.Positioner>
+      </Menu.Root>
+    </HStack>
   );
 };
 
