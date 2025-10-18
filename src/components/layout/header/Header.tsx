@@ -1,6 +1,6 @@
 /** @format */
 
-import { Box, Flex, Container } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import UserMenu from "./UserMenu";
 import Navigation from "./Navigation";
@@ -11,23 +11,21 @@ const Header = () => {
   const shadowColor = useColorModeValue("md", "dark-lg");
 
   return (
-    <Box p={2} w='full'>
-      <Container maxW='container.xl'>
-        <Flex
-          bg={bgColor}
-          boxShadow={shadowColor}
-          borderRadius='full'
-          px={3}
-          py={2}
-          align='center'
-          justify='space-between'>
-          <Flex align='center'>
-            <Icons.logo />
-          </Flex>
-          <Navigation />
-          <UserMenu />
+    <Box position='fixed' left={0} top={0} zIndex={100} p={2} w='full'>
+      <Flex
+        bg={bgColor}
+        boxShadow={shadowColor}
+        borderRadius='full'
+        px={3}
+        py={2}
+        align='center'
+        justify='space-between'>
+        <Flex align='center'>
+          <Icons.logo />
         </Flex>
-      </Container>
+        <Navigation />
+        <UserMenu />
+      </Flex>
     </Box>
   );
 };

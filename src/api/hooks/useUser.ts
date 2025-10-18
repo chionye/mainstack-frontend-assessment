@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { USERS } from "@/constants/endpoints";
 import { API } from "../client";
-import type { User } from "../types/user.types";
+import type { User } from "../types";
 
 export const useUser = () => {
   return useQuery<User>({
