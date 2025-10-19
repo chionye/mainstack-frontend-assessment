@@ -1,10 +1,4 @@
-/**
- * Generates user initials from full name
- *
- * @format
- * @param fullName - The full name of the user
- * @returns The initials (e.g., "John Doe" -> "JD")
- */
+/** @format */
 
 export const generateUserInitials = (fullName: string): string => {
   if (!fullName) return "";
@@ -21,11 +15,6 @@ export const generateUserInitials = (fullName: string): string => {
   return `${firstInitial}${lastInitial}`;
 };
 
-/**
- * Formats a number as currency without currency symbol
- * @param amount - The amount to format
- * @returns Formatted currency string (e.g., "1,234.56")
- */
 export const formatAmount = (amount: number): string => {
   return new Intl.NumberFormat("en-US", {
     style: "decimal",
@@ -34,11 +23,6 @@ export const formatAmount = (amount: number): string => {
   }).format(amount);
 };
 
-/**
- * Generates a PascalCase string from a snake_case string
- * @param str - The string to convert
- * @returns The PascalCase string
- */
 export const generatePascalCase = (word: string) => {
   if (!word) {
     return "";
@@ -50,11 +34,6 @@ export const generatePascalCase = (word: string) => {
     .join(" ");
 };
 
-/**
- * Converts a string to sentence case (first letter capitalized, rest lowercase)
- * @param str - The string to convert
- * @returns The sentence case string
- */
 export const sentenceCase = (str: string): string => {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
