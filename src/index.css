@@ -1,68 +1,236 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/** @format */
+/** @format */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
+@font-face {
+  font-family: Degular;
+  src: url(/fonts/Degular/Degular-Medium.1d52003d.woff2) format("woff2");
   font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  font-style: normal;
 }
-a:hover {
-  color: #535bf2;
+
+@font-face {
+  font-family: Degular;
+  src: url(/fonts/Degular/Degular-Medium_Italic.c498295c.woff2) format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Degular;
+  src: url(/fonts/Degular/Degular-Semibold.16f56c41.woff2) format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Degular;
+  src: url(/fonts/Degular/Degular-Semibold_Italic.2bde356f.woff2)
+    format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Degular;
+  src: url(/fonts/Degular/Degular-Bold.8feeb002.woff2) format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Degular;
+  src: url(/fonts/Degular/Degular-Bold_Italic.3f792451.woff2) format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Degular Display;
+  src: url(/fonts/Degular/Degular_Display-Semibold.7a5a7d92.woff2)
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Degular Display;
+  src: url(/fonts/Degular/Degular_Display-Semibold_Italic.b6c1d734.woff2)
+    format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Degular Display;
+  src: url(/fonts/Degular/Degular_Display-Bold.c82ad849.woff2) format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Degular Display;
+  src: url(/fonts/Degular/Degular_Display-Bold_Italic.a57e5e22.woff2)
+    format("woff2");
+  font-weight: 700;
+  font-style: italic;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  font-family: "Degular", sans-serif;
+  background-color: #FFFFFF;
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-family: Degular;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 48px;
+  letter-spacing: -1.5px;
 }
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+h2 {
+  font-family: Degular;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 38px;
+  letter-spacing: -0.6000000238418579px;
+}
+h3 {
+  font-family: Degular;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: -0.6000000238418579px;
+}
+p {
+  font-family: Degular;
+  font-size: 14px;
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+  line-height: 16px;
+  letter-spacing: -0.20000000298023224px;
+  color: #56616b;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+a, label {
+  font-family: Degular;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.4000000059604645px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.chakra-datepicker {
+  font-family: inherit;
+  border: none !important;
+}
+
+.chakra-datepicker .react-datepicker__header {
+  background-color: transparent;
+  border-bottom: none;
+  padding-top: 0;
+}
+
+.chakra-datepicker .react-datepicker__current-month {
+  color: #131316;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 1rem;
+}
+
+.chakra-datepicker .react-datepicker__day-names {
+  margin-bottom: 0.5rem;
+}
+
+.chakra-datepicker .react-datepicker__day-name {
+  color: #56616B;
+  font-size: 14px;
+  font-weight: 500;
+  width: 2.5rem;
+  line-height: 2.5rem;
+  margin: 0.166rem;
+}
+
+.chakra-datepicker .react-datepicker__day {
+  color: #131316;
+  font-size: 14px;
+  width: 2.5rem;
+  line-height: 2.5rem;
+  margin: 0.166rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.chakra-datepicker .react-datepicker__day:hover {
+  background-color: #EFF1F6;
+  border-radius: 0.5rem;
+}
+
+.chakra-datepicker .react-datepicker__day--selected,
+.chakra-datepicker .react-datepicker__day--keyboard-selected {
+  background-color: #131316 !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 0.5rem;
+}
+
+.chakra-datepicker .react-datepicker__day--today {
+  font-weight: 600;
+  color: #131316;
+  background-color: transparent;
+}
+
+.chakra-datepicker .react-datepicker__day--disabled {
+  color: #DBDEE5;
+  cursor: not-allowed;
+}
+
+.chakra-datepicker .react-datepicker__day--disabled:hover {
+  background-color: transparent;
+}
+
+.chakra-datepicker .react-datepicker__day--outside-month {
+  color: #DBDEE5;
+}
+
+.chakra-datepicker .react-datepicker__navigation {
+  top: 0.5rem;
+}
+
+.chakra-datepicker .react-datepicker__navigation-icon::before {
+  border-color: #131316;
+  border-width: 2px 2px 0 0;
+  height: 7px;
+  width: 7px;
+}
+
+.chakra-datepicker .react-datepicker__navigation:hover *::before {
+  border-color: #31373D;
+}
+
+.chakra-datepicker .react-datepicker__month {
+  margin: 0;
+  padding: 0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .chakra-datepicker .react-datepicker__current-month,
+  .chakra-datepicker .react-datepicker__day {
+    color: white;
   }
-  a:hover {
-    color: #747bff;
+
+  .chakra-datepicker .react-datepicker__day-name {
+    color: #a0aec0;
   }
-  button {
-    background-color: #f9f9f9;
+
+  .chakra-datepicker .react-datepicker__day:hover {
+    background-color: #2d3748;
+  }
+
+  .chakra-datepicker .react-datepicker__day--selected,
+  .chakra-datepicker .react-datepicker__day--keyboard-selected {
+    background-color: white !important;
+    color: #131316 !important;
+  }
+
+  .chakra-datepicker .react-datepicker__navigation-icon::before {
+    border-color: white;
   }
 }
