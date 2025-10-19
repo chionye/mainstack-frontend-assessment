@@ -14,8 +14,10 @@ const DateRangeSelector = ({
 }: DateRangeSelectorProps) => {
   const textColor = useColorModeValue("#131316", "white");
 
-  const startDateValue = startDate ? new Date(startDate) : undefined;
-  const endDateValue = endDate ? new Date(endDate) : undefined;
+  const startDateValue = startDate
+    ? new Date(startDate + "T00:00:00")
+    : undefined;
+  const endDateValue = endDate ? new Date(endDate + "T00:00:00") : undefined;
 
   return (
     <Box>
