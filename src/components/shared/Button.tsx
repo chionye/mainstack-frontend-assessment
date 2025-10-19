@@ -1,8 +1,7 @@
 /** @format */
 
-import { Button } from "@chakra-ui/react";
+import { Button, type ButtonProps } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
-import type { ButtonProps } from "./types";
 
 const CustomButton = ({
   onClick,
