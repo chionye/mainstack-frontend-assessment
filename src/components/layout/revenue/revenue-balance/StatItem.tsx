@@ -1,5 +1,6 @@
 /** @format */
 
+import { memo, useMemo } from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { formatAmount } from "@/services/helpers";
 import type { StatItemProps } from "./types";
@@ -14,6 +15,8 @@ const StatItem = ({
 }: StatItemProps) => {
   const labelColor = useColorModeValue("#56616B", "white");
   const amountColor = useColorModeValue("#131316", "white");
+
+  const formattedAmount = useMemo(() => formatAmount(amount), [amount]);
 
   return (
     <Box>
@@ -31,10 +34,10 @@ const StatItem = ({
         fontWeight='bold'
         color={amountColor}
         lineHeight='1.2'>
-        USD {formatAmount(amount)}
+        USD {formattedAmount}
       </Text>
     </Box>
   );
 };
 
-export default StatItem;
+export default memo(StatItem);

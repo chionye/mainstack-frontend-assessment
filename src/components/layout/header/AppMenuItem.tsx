@@ -1,17 +1,11 @@
 /** @format */
 
 import { Link as RouterLink } from "react-router-dom";
-import {
-  Link,
-  HStack,
-  VStack,
-  Text,
-  Image,
-  Box,
-} from "@chakra-ui/react";
+import { Link, HStack, VStack, Text, Box } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { Icon } from "@iconify-icon/react";
 import type { AppItem } from "./types";
+import IconComponent from "@/components/shared/IconComponent";
 
 const AppMenuItem = ({ title, subtitle, link, image }: AppItem) => {
   const titleColor = useColorModeValue("#131316", "white");
@@ -29,11 +23,12 @@ const AppMenuItem = ({ title, subtitle, link, image }: AppItem) => {
       p={4}
       borderRadius='xl'
       transition='all 0.2s'
-      role='group'>
-      <RouterLink to={link}>
+      role='group'
+      tabIndex={-1}>
+      <RouterLink to={link} tabIndex={0}>
         <HStack gap={3} w='full' align='flex-start'>
           <Box p={3} borderRadius='md' boxShadow='md'>
-            <Image src={image} alt={title} boxSize='24px' />
+            <IconComponent icon={image} />
           </Box>
 
           <HStack justify='space-between' align='center' w='full' mt={1}>

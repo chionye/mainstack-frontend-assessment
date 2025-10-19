@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Transaction } from "@/api/types/transactions.types";
+import type { Transaction } from "@/api/types";
 
 const isSameDay = (date1: Date, date2: Date): boolean => {
   return (

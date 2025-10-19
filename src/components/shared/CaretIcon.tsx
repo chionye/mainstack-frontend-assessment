@@ -1,3 +1,5 @@
+/** @format */
+
 import { Icon } from "@iconify-icon/react";
 
 interface CaretIconProps {

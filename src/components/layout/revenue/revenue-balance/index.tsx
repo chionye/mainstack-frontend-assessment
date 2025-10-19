@@ -2,7 +2,7 @@
 
 import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
 import type { BalanceSectionProps } from "./types";
-import Chart from "@/components/layout/body/Chart";
+import Chart from "@/components/layout/revenue/Chart";
 import BalanceCard from "./BalanceCard";
 import WalletStatsPanel from "./WalletStatsPanel";
 

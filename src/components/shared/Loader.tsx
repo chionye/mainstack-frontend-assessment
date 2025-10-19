@@ -1,9 +1,12 @@
+/** @format */
+
 import { TailSpin } from "react-loader-spinner";
+import { Flex } from "@chakra-ui/react";
 
 const Loader = () => {
   return (
-    <div className='flex justify-center items-center h-screen'>
-      <TailSpin
+    <Flex justify='center' align='center' height='100vh'>
+      <TailSpin     
         visible={true}
         height='80'
         width='80'
@@ -13,7 +16,7 @@ const Loader = () => {
         wrapperStyle={{}}
         wrapperClass=''
       />
-    </div>
+    </Flex>
   );
 };
 

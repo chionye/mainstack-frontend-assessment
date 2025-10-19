@@ -37,21 +37,35 @@ export const AppItems = [
     title: "Link in Bio",
     subtitle: "Manage your custom link-in-bio page",
     link: "/apps/link-in-bio",
-    image: "/images/link-in-bio.png",
+    image: "link" as keyof typeof Icons,
   },
   {
     title: "Store",
     subtitle: "Manage your online store",
     link: "/apps/store",
-    image: "/images/store.png",
+    image: "store" as keyof typeof Icons,
+  },
+
+  {
+    title: "Media Kit",
+    subtitle: "Manage your Media Kit",
+    link: "/media",
+    image: "mediaKit" as keyof typeof Icons,
   },
   {
     title: "Invoicing",
     subtitle: "Create and manage invoices",
     link: "/apps/invoicing",
-    image: "/images/invoicing.png",
+    image: "invoicing" as keyof typeof Icons,
   },
-];
+
+  {
+    title: "Bookings",
+    subtitle: "Manage your Bookings",
+    link: "/booking",
+    image: "booking" as keyof typeof Icons,
+  },
+] as const;
 
 // Menu items for the user dropdown
 export const MenuItems = [
@@ -96,3 +110,26 @@ export const MenuIcon = [
     icon: "message" as keyof typeof Icons,
   },
 ];
+
+export const SidebarItems = [
+  {
+    label: "Link to Bio",
+    image: "link" as keyof typeof Icons,
+    link: "#",
+  },
+  {
+    label: "Store",
+    image: "store" as keyof typeof Icons,
+    link: "#",
+  },
+  {
+    label: "Media Kit",
+    image: "mediaKit" as keyof typeof Icons,
+    link: "#",
+  },
+  {
+    label: "Invoicing",
+    image: "invoicing" as keyof typeof Icons,
+    link: "#",
+  },
+] as const;

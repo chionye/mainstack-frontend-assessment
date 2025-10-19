@@ -23,15 +23,18 @@ const WalletStatsPanel = ({ walletStats }: WalletStatsPanelProps) => {
   return (
     <Box w={width} px={padding} mt={marginTop}>
       <VStack gap={7} align='stretch'>
-        {statsToDisplay.map((key, index) => (
-          <StatItem
-            key={index}
-            fontSize='24px'
-            label={generatePascalCase(key)}
-            amount={walletStats[key] as number}
-            showInfo
-          />
-        ))}
+        {statsToDisplay.map((key, index) => {
+          const amount = walletStats[key] ?? 0;
+          return (
+            <StatItem
+              key={index}
+              fontSize='24px'
+              label={generatePascalCase(key)}
+              amount={amount}
+              showInfo
+            />
+          );
+        })}
       </VStack>
     </Box>
   );

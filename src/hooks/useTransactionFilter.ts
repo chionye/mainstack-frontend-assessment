@@ -1,7 +1,7 @@
 /** @format */
 
-import { useState, useEffect } from "react";
-import type { Transaction } from "@/api/types/transactions.types";
+import { useState, useEffect, useCallback } from "react";
+import type { Transaction } from "@/api/types";
 import { filterData } from "@/services/filter";
 
 interface SelectedItems {
@@ -25,12 +25,16 @@ export const useTransactionFilter = ({
   const [transactionPeriod, setTransactionPeriod] =
     useState<string>("all time");
   const [filteredData, setFilteredData] = useState<Transaction[]>([]);
+  const [hasAppliedFilter, setHasAppliedFilter] = useState(false);
 
+  // Only update filteredData when transactions change AND no filter has been applied
   useEffect(() => {
-    setFilteredData(transactions);
-  }, [transactions]);
+    if (!hasAppliedFilter) {
+      setFilteredData(transactions);
+    }
+  }, [transactions, hasAppliedFilter]);
 
-  const handleFilter = () => {
+  const handleFilter = useCallback(() => {
     const result = filterData(
       transactions,
       transactionPeriod,
@@ -40,24 +44,26 @@ export const useTransactionFilter = ({
       selectedItems.trans_status
     );
     setFilteredData(result);
-  };
+    setHasAppliedFilter(true);
+  }, [transactions, transactionPeriod, startDate, endDate, selectedItems]);
 
-  const handleClearFilter = () => {
+  const handleClearFilter = useCallback(() => {
     setFilteredData(transactions);
     setStartDate("");
     setEndDate("");
     setSelectedItems({ trans_type: [], trans_status: [] });
     setTransactionPeriod("all time");
-  };
+    setHasAppliedFilter(false);
+  }, [transactions]);
 
-  const toggleSelection = (item: string, key: string) => {
+  const toggleSelection = useCallback((item: string, key: string) => {
     setSelectedItems((prev) => ({
       ...prev,
       [key]: prev[key as keyof SelectedItems].includes(item)
         ? prev[key as keyof SelectedItems].filter((i) => i !== item)
         : [...prev[key as keyof SelectedItems], item],
     }));
-  };
+  }, []);
 
   return {
     selectedItems,

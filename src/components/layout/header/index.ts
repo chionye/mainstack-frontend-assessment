@@ -1,3 +1,5 @@
+/** @format */
+
 // Export all layout components
 export { default as Header } from "./Header";
 export { default as AppsDropdown } from "./AppsDropdown";

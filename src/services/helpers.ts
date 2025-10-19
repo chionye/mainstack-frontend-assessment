@@ -22,18 +22,24 @@ export const generateUserInitials = (fullName: string): string => {
 };
 
 /**
- * Formats a number as currency
+ * Formats a number as currency with optional currency symbol
  * @param amount - The amount to format
- * @param currency - The currency code (default: "USD")
+ * @param options - Formatting options
+ * @param options.currency - The currency code (default: "USD")
+ * @param options.showSymbol - Whether to show currency symbol (default: true)
  * @returns Formatted currency string
  */
 export const formatCurrency = (
   amount: number,
-  currency: string = "USD"
+  options: { currency?: string; showSymbol?: boolean } = {}
 ): string => {
+  const { currency = "USD", showSymbol = true } = options;
+
   return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency,
+    style: showSymbol ? "currency" : "decimal",
+    currency: showSymbol ? currency : undefined,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   }).format(amount);
 };
 
@@ -53,26 +59,26 @@ export const formatDate = (date: Date | string): string => {
 };
 
 /**
- * Filters and sorts graph data
- * @param data - The data to filter and sort
- * @returns The filtered and sorted data
+ * Filters and sorts graph data by amount
+ * @param data - The transaction data to filter and sort
+ * @returns The filtered and sorted transaction data
  */
-export const filterAndSortGraphData = (data: any): any => {
+export const filterAndSortGraphData = <T extends { amount: number }>(
+  data: T[]
+): T[] => {
   return data
-    .filter((item: any) => item.amount > 0)
-    .sort((a: any, b: any) => a.amount - b.amount);
+    .filter((item) => item.amount > 0)
+    .sort((a, b) => a.amount - b.amount);
 };
 
 /**
- * Formats a number as currency
+ * Formats a number as currency without currency symbol
  * @param amount - The amount to format
- * @returns Formatted currency string
+ * @returns Formatted currency string (e.g., "1,234.56")
+ * @deprecated Use formatCurrency with showSymbol: false instead
  */
 export const formatAmount = (amount: number): string => {
-  return new Intl.NumberFormat("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amount);
+  return formatCurrency(amount, { showSymbol: false });
 };
 
 /**
@@ -88,4 +94,14 @@ export const generatePascalCase = (word: string) => {
     .split("_")
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(" ");
+};
+
+/**
+ * Converts a string to sentence case (first letter capitalized, rest lowercase)
+ * @param str - The string to convert
+ * @returns The sentence case string
+ */
+export const sentenceCase = (str: string): string => {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };

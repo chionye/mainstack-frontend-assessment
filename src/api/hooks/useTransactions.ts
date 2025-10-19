@@ -9,8 +9,15 @@ export const useTransactions = () => {
   return useQuery<Transaction[]>({
     queryKey: ["transactions"],
     queryFn: async () => {
-      const { data } = await API.get(TRANSACTIONS);
-      return data;
+      try {
+        const { data } = await API.get(TRANSACTIONS);
+        return data;
+      } catch (error) {
+        console.error("Failed to fetch transactions:", error);
+        throw error;
+      }
     },
+    retry: 2,
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 };

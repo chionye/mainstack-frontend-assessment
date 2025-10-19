@@ -2,11 +2,6 @@
 
 import type { Icons } from "@/constants/icons";
 
-export interface NavItem {
-  label: string;
-  link: string;
-  icon: keyof typeof Icons;
-}
 
 export interface UserAvatarProps {
   initials: string;
@@ -17,7 +12,7 @@ export interface AppItem {
   title: string;
   subtitle: string;
   link: string;
-  image: string;
+  image: keyof typeof Icons;
 }
 
 export interface MenuItem {
