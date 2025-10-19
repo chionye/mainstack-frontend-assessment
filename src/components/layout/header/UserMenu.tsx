@@ -37,7 +37,7 @@ const UserMenu = () => {
     <HStack gap={3} color={subtitleColor}>
       {/* Icon Buttons */}
       {MenuIcon.map((item: { icon: keyof typeof Icons }, index: number) => (
-        <IconButton key={index} icon={item.icon} />
+        <IconButton key={item.label} icon={item.icon} />
       ))}
 
       {/* User Menu Dropdown */}
@@ -87,7 +87,7 @@ const UserMenu = () => {
 
             {/* Menu Items */}
             {MenuItems.map((item: MenuItem, index: number) => (
-              <Menu.Item key={index} value={item.link} asChild>
+              <Menu.Item key={item.label} value={item.link} asChild>
                 <RouterLink to={item.link}>
                   <Box
                     py={3}

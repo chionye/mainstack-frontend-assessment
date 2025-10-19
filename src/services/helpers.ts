@@ -22,63 +22,16 @@ export const generateUserInitials = (fullName: string): string => {
 };
 
 /**
- * Formats a number as currency with optional currency symbol
- * @param amount - The amount to format
- * @param options - Formatting options
- * @param options.currency - The currency code (default: "USD")
- * @param options.showSymbol - Whether to show currency symbol (default: true)
- * @returns Formatted currency string
- */
-export const formatCurrency = (
-  amount: number,
-  options: { currency?: string; showSymbol?: boolean } = {}
-): string => {
-  const { currency = "USD", showSymbol = true } = options;
-
-  return new Intl.NumberFormat("en-US", {
-    style: showSymbol ? "currency" : "decimal",
-    currency: showSymbol ? currency : undefined,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amount);
-};
-
-/**
- * Formats a date to a readable string
- * @param date - The date to format
- * @returns Formatted date string
- */
-export const formatDate = (date: Date | string): string => {
-  const dateObj = typeof date === "string" ? new Date(date) : date;
-
-  return new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  }).format(dateObj);
-};
-
-/**
- * Filters and sorts graph data by amount
- * @param data - The transaction data to filter and sort
- * @returns The filtered and sorted transaction data
- */
-export const filterAndSortGraphData = <T extends { amount: number }>(
-  data: T[]
-): T[] => {
-  return data
-    .filter((item) => item.amount > 0)
-    .sort((a, b) => a.amount - b.amount);
-};
-
-/**
  * Formats a number as currency without currency symbol
  * @param amount - The amount to format
  * @returns Formatted currency string (e.g., "1,234.56")
- * @deprecated Use formatCurrency with showSymbol: false instead
  */
 export const formatAmount = (amount: number): string => {
-  return formatCurrency(amount, { showSymbol: false });
+  return new Intl.NumberFormat("en-US", {
+    style: "decimal",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
 };
 
 /**
@@ -92,6 +45,7 @@ export const generatePascalCase = (word: string) => {
   }
   return word
     .split("_")
+    .filter((w) => w.length > 0) // Filter out empty strings from multiple underscores
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(" ");
 };

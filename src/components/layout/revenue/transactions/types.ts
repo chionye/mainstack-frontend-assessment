@@ -40,6 +40,7 @@ export interface FilterDrawerProps {
 export interface SelectItem {
   id: string;
   label: string;
+  value?: string;
 }
 
 export interface MultiSelectCheckboxProps {
@@ -51,27 +52,8 @@ export interface MultiSelectCheckboxProps {
   onOpenChange: () => void;
 }
 
-export interface SelectItem {
-  id: string;
-  label: string;
-}
-
 export interface PeriodButton {
   label: string;
-}
-
-export interface SelectItem {
-  label: string;
-  value: string;
-}
-
-export interface TransactionHeaderProps {
-  count: number;
-  period: string;
-  onFilterApply: () => void;
-  onFilterClear?: () => void;
-  onExport?: () => void;
-  filterCount?: number;
 }
 
 

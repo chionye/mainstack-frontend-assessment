@@ -50,10 +50,20 @@ const initialFilterState = {
   filterCount: 0,
 };
 
-// Helper to compare transaction arrays deeply
+// Helper to compare transaction arrays with lightweight comparison
 const areTransactionsEqual = (a: Transaction[], b: Transaction[]): boolean => {
+  // Quick length check
   if (a.length !== b.length) return false;
-  return JSON.stringify(a) === JSON.stringify(b);
+
+  // If both empty, they're equal
+  if (a.length === 0) return true;
+
+  // Compare first and last elements by payment_reference (fast)
+  // This catches most changes without expensive deep comparison
+  return (
+    a[0].payment_reference === b[0].payment_reference &&
+    a[a.length - 1].payment_reference === b[a.length - 1].payment_reference
+  );
 };
 
 export const useFilterStore = create<FilterState>()(

@@ -54,8 +54,7 @@ const Revenue = () => {
   // Update store when transactions data changes
   useEffect(() => {
     setTransactions(transactions);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [transactions]);
+  }, [transactions, setTransactions]);
 
   const walletStats = useMemo(
     () => ({

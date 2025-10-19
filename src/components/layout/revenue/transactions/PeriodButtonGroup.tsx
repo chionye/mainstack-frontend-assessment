@@ -23,11 +23,11 @@ const PeriodButtonGroup = ({
 
   return (
     <HStack justify='space-evenly' align='center'>
-      {filterButtonItems.map((item, index) => {
+      {filterButtonItems.map((item) => {
         const isSelected = selectedPeriod === item.label.toLowerCase();
         return (
           <CustomButton
-            key={index}
+            key={item.label}
             py={"10px"}
             px={"18px"}
             variant='outline'

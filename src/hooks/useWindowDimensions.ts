@@ -9,15 +9,24 @@ export const useWindowDimensions = () => {
   });
 
   useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+
     function handleResize() {
-      setWindowDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
+      // Debounce resize events (200ms delay)
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setWindowDimensions({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }, 200);
     }
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return windowDimensions;

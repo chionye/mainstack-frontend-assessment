@@ -16,9 +16,9 @@ const TransactionList = ({
 
   return (
     <VStack gap={6} align='stretch' mt={6} pb={10}>
-      {transactions.map((transaction, index) => (
+      {transactions.map((transaction) => (
         <TransactionItem
-          key={index}
+          key={transaction.payment_reference}
           transaction={transaction}
           amountFontSize={amountFontSize}
         />

@@ -62,8 +62,8 @@ const AppsDropdown = () => {
           p={2}
           minW={{ base: "90vw", md: "26rem" }}
           border='none'>
-          {AppItems.map((item, index) => (
-            <Box key={index}>
+          {AppItems.map((item) => (
+            <Box key={item.title}>
               <AppMenuItem
                 title={item.title}
                 subtitle={item.subtitle}

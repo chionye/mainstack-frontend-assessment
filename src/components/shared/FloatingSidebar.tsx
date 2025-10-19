@@ -26,9 +26,9 @@ const FloatingSidebar = () => {
       px={1}
       py={2}>
       <VStack gap={1}>
-        {SidebarItems.map((item: SidebarItemData, index: number) => (
+        {SidebarItems.map((item: SidebarItemData) => (
           <Tooltip.Root
-            key={index}
+            key={item.label}
             positioning={{ placement: "right" }}
             openDelay={50}
             closeDelay={0}>

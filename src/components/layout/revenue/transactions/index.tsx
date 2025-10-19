@@ -2,8 +2,8 @@
 
 import { Box } from "@chakra-ui/react";
 import TransactionHeader from "./TransactionHeader";
-import TransactionList from "./TransactionList";
 import type { Transaction } from "@/api/types";
+import TransactionList from "./TransactionList";
 
 interface TransactionsSectionProps {
   transactions: Transaction[];

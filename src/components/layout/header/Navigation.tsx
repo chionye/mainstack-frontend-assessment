@@ -12,16 +12,16 @@ const Navigation = () => {
       gap={{ base: 2, md: 8 }}
       display={{ base: "none", md: "flex" }}
       align='center'>
-      {NavItems.map((item: NavItem, index: number) =>
+      {NavItems.map((item: NavItem) =>
         item.label !== "Apps" ? (
           <NavLink
-            key={index}
+            key={item.label}
             label={item.label}
             link={item.link}
             icon={item.icon}
           />
         ) : (
-          <AppsDropdown key={index} />
+          <AppsDropdown key={item.label} />
         )
       )}
     </HStack>
