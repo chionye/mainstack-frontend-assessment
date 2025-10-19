@@ -73,6 +73,31 @@ npm run test:ui
 yarn test:ui
 ```
 
+For E2E test:
+```bash
+npm run test:e2e
+```
+
+For E2E test in UI mode (interactive):
+```bash
+npm run test:e2e:ui
+```
+
+For E2E test in headed mode (see browser):
+```bash
+npm run test:e2e:headed
+```
+
+For E2E test for specific browser:
+```bash
+npm run test:e2e:chromium
+```
+
+For E2E test report:
+```bash
+npm run test:e2e:report
+```
+
 ## 🏗️ Project Structure
 
 ```
