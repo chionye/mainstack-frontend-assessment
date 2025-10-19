@@ -84,7 +84,6 @@ describe('EmptyState', () => {
     it('should render with proper layout structure', () => {
       const { container } = render(<EmptyState onClearFilter={() => {}} />)
 
-      // Check if VStack is rendered
       const vStack = container.querySelector('[class*="chakra-stack"]')
       expect(vStack).toBeInTheDocument()
     })

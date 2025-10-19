@@ -22,7 +22,6 @@ describe('FilterButton', () => {
     it('should render chevron down icon', () => {
       const { container } = render(<FilterButton onClick={() => {}} />)
 
-      // Icon should be present (part of the button content)
       expect(container.querySelector('svg')).toBeInTheDocument()
     })
   })

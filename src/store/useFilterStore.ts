@@ -58,8 +58,6 @@ const areTransactionsEqual = (a: Transaction[], b: Transaction[]): boolean => {
   // If both empty, they're equal
   if (a.length === 0) return true;
 
-  // Compare first and last elements by payment_reference (fast)
-  // This catches most changes without expensive deep comparison
   return (
     a[0].payment_reference === b[0].payment_reference &&
     a[a.length - 1].payment_reference === b[a.length - 1].payment_reference
@@ -88,12 +86,8 @@ export const useFilterStore = create<FilterState>()(
             set({ transactions }, false, "setTransactions");
 
             // Re-apply filter with new data
-            const {
-              transactionPeriod,
-              startDate,
-              endDate,
-              selectedItems,
-            } = get();
+            const { transactionPeriod, startDate, endDate, selectedItems } =
+              get();
 
             const result = filterData(
               transactions,
@@ -115,10 +109,14 @@ export const useFilterStore = create<FilterState>()(
 
             const finalCount = result.length > 0 ? count : 0;
 
-            set({
-              filteredData: result,
-              filterCount: finalCount,
-            }, false, "setTransactions/applyFilter");
+            set(
+              {
+                filteredData: result,
+                filterCount: finalCount,
+              },
+              false,
+              "setTransactions/applyFilter"
+            );
           }
         },
 
@@ -156,21 +154,18 @@ export const useFilterStore = create<FilterState>()(
             selectedItems.trans_status
           );
 
-          // Calculate filter count - only show if filters are applied AND results exist
           let count = 0;
 
-          // Date filter - only count if period is set OR custom dates are used
           const hasCustomDates = startDate && endDate;
           const hasPeriod = transactionPeriod !== "all time";
 
           if (hasCustomDates || hasPeriod) {
-            count++; // Count as one filter (either period or custom range)
+            count++;
           }
 
           if (selectedItems.trans_type.length > 0) count++;
           if (selectedItems.trans_status.length > 0) count++;
 
-          // Only show count if there are actual results
           const finalCount = result.length > 0 ? count : 0;
 
           set({
@@ -200,7 +195,6 @@ export const useFilterStore = create<FilterState>()(
       }),
       {
         name: "filter-store",
-        // Only persist filter criteria, not the data
         partialize: (state) => ({
           selectedItems: state.selectedItems,
           startDate: state.startDate,
