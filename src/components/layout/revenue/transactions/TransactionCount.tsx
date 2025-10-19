@@ -2,11 +2,7 @@
 
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { Box, Heading, Text } from "@chakra-ui/react";
-
-interface TransactionCountProps {
-  count: number;
-  period: string;
-}
+import type { TransactionCountProps } from "./types";
 
 const TransactionCount = ({ count, period }: TransactionCountProps) => {
   const headingColor = useColorModeValue("#131316", "white");

@@ -4,13 +4,7 @@ import { NavLink as RouterNavLink } from "react-router-dom";
 import { HStack, Text, Box } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import IconComponent from "@/components/shared/IconComponent";
-import type { Icons } from "@/constants/icons";
-
-interface NavLinkProps {
-  label: string;
-  link: string;
-  icon: keyof typeof Icons;
-}
+import type { NavLinkProps } from "./types";
 
 const NavLink = ({ label, link, icon }: NavLinkProps) => {
   const textColor = useColorModeValue("#56616B", "gray.300");

@@ -14,7 +14,6 @@ const DateRangeSelector = ({
 }: DateRangeSelectorProps) => {
   const textColor = useColorModeValue("#131316", "white");
 
-  // Convert string dates to Date objects
   const startDateValue = startDate ? new Date(startDate) : undefined;
   const endDateValue = endDate ? new Date(endDate) : undefined;
 

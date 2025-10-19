@@ -12,7 +12,6 @@ export const useWindowDimensions = () => {
     let timeoutId: ReturnType<typeof setTimeout>;
 
     function handleResize() {
-      // Debounce resize events (200ms delay)
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
         setWindowDimensions({

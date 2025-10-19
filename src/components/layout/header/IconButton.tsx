@@ -2,13 +2,8 @@
 
 import { Button } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
-import { Icons } from "@/constants/icons";
 import IconComponent from "@/components/shared/IconComponent";
-
-interface IconButtonProps {
-  icon: keyof typeof Icons;
-  onClick?: () => void;
-}
+import type { IconButtonProps } from "./types";
 
 const IconButton = ({ icon, onClick }: IconButtonProps) => {
   const hoverBg = useColorModeValue("#EFF1F6", "gray.700");
@@ -23,6 +18,7 @@ const IconButton = ({ icon, onClick }: IconButtonProps) => {
       border='none'
       boxShadow='none'
       _hover={{ bg: hoverBg }}
+      rounded='full'
       onClick={onClick}
       p={0}>
       <IconComponent icon={icon} color={iconColor} />

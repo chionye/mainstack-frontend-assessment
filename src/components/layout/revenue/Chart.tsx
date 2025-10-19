@@ -60,8 +60,7 @@ const Chart = ({ data }: { data: Transaction[] }) => {
         width={chartWidth}
         height={257}
         data={chartData}
-        margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
-      >
+        margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
         <Line
           type='monotone'
           dataKey='amount'

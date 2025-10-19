@@ -77,18 +77,33 @@ yarn test:ui
 
 ```
 src/
-├── components/     # Reusable UI components
-├── pages/         # Page components
-├── store/         # State management with Zustand
-├── services/      # Business logic
-├── types/         # TypeScript type definitions
-├── utils/         # Utility functions
-└── test/          # Test files
+├── api/                # API client and hooks
+│   ├── hooks/         # Custom API hooks
+│   └── types/         # API type definitions
+├── assets/            # Static assets (images, icons)
+├── components/        # React components
+│   ├── layout/       # Layout components (header, revenue sections)
+│   ├── shared/       # Shared/reusable components
+│   └── ui/           # UI components
+├── constants/         # Application constants
+├── hooks/             # Custom React hooks
+├── lib/               # Third-party library configurations
+├── pages/             # Page components
+│   └── Revenue/      # Revenue page
+├── routes/            # Application routing
+├── services/          # Business logic and services
+├── store/             # State management with Zustand
+├── test/              # Test files
+│   ├── api/          # API tests
+│   ├── components/   # Component tests
+│   ├── services/     # Service tests
+│   └── store/        # Store tests
+└── utils/             # Utility functions
 ```
 
 ## 📦 Dependencies
 
-- React 18
+- React 19
 - TypeScript
 - Vite
 - Chakra-UI

@@ -83,7 +83,6 @@ const ErrorBoundary = ({ error, resetError }: ErrorBoundaryProps) => {
         w='full'
         boxShadow='sm'>
         <VStack gap={6} textAlign='center'>
-          {/* Error Visual */}
           <Box position='relative'>
             <Flex alignItems='center' justifyContent='center'>
               {error?.status === 404 && (
@@ -98,7 +97,6 @@ const ErrorBoundary = ({ error, resetError }: ErrorBoundaryProps) => {
             </Flex>
           </Box>
 
-          {/* Error Message */}
           <VStack gap={3}>
             <Heading
               as='h1'
@@ -112,7 +110,6 @@ const ErrorBoundary = ({ error, resetError }: ErrorBoundaryProps) => {
             </Text>
           </VStack>
 
-          {/* Error Details - Only in Development */}
           {import.meta.env.DEV && error?.message && (
             <Box w='full' mt={4}>
               <details>
