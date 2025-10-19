@@ -2,16 +2,8 @@
 
 import { Box } from "@chakra-ui/react";
 import TransactionHeader from "./TransactionHeader";
-import type { Transaction } from "@/api/types";
 import TransactionList from "./TransactionList";
-
-interface TransactionsSectionProps {
-  transactions: Transaction[];
-  transactionPeriod: string;
-  onFilterApply: () => void;
-  onFilterClear: () => void;
-  onExport?: () => void;
-}
+import type { TransactionsSectionProps } from "./types";
 
 const TransactionsSection = ({
   transactions,

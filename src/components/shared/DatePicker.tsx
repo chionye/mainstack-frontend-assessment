@@ -11,12 +11,7 @@ import ReactDatePicker from "react-datepicker";
 import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 import { useColorModeValue } from "@/components/ui/color-mode";
-
-interface DatePickerProps {
-  label?: string;
-  value?: Date;
-  onChange: (date: string) => void;
-}
+import type { DatePickerProps } from "./types";
 
 const DatePicker = ({
   label = "Pick a date",

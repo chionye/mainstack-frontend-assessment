@@ -41,3 +41,9 @@ export interface IconButtonProps {
   icon: keyof typeof Icons;
   onClick?: () => void;
 }
+
+export interface NavLinkProps {
+  label: string;
+  link: string;
+  icon: keyof typeof Icons;
+}

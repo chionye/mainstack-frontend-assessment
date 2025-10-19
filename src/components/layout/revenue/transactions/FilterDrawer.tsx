@@ -8,23 +8,8 @@ import TransactionTypeSelector from "./TransactionTypeSelector";
 import TransactionStatusSelector from "./TransactionStatusSelector";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import CustomButton from "@/components/shared/Button";
-
-interface FilterDrawerProps {
-  isOpen: boolean;
-  onClose: () => void;
-  transactionPeriod: string;
-  onPeriodChange: (period: string) => void;
-  onStartDateChange: (date: string) => void;
-  onEndDateChange: (date: string) => void;
-  selectedTypes: string[];
-  selectedStatuses: string[];
-  onTypeToggle: (type: string) => void;
-  onStatusToggle: (status: string) => void;
-  onApply: () => void;
-  onClear: () => void;
-  startDate?: string;
-  endDate?: string;
-}
+import { Icons } from "@/constants/icons";
+import type { FilterDrawerProps } from "./types";
 
 const FilterDrawer = ({
   isOpen,
@@ -48,7 +33,6 @@ const FilterDrawer = ({
   const bgColor = useColorModeValue("white", "gray.800");
   const titleColor = useColorModeValue("#131316", "white");
 
-  // Check if any filters are active
   const hasActiveFilters = useMemo(() => {
     const hasCustomDates = startDate && endDate;
     const hasPeriod = transactionPeriod !== "all time";
@@ -71,7 +55,9 @@ const FilterDrawer = ({
             <Text fontSize='20px' fontWeight='semibold' color={titleColor}>
               Filter
             </Text>
-            <Drawer.CloseTrigger />
+            <Drawer.CloseTrigger>
+              <Icons.close />
+            </Drawer.CloseTrigger>
           </Drawer.Header>
 
           <Drawer.Body

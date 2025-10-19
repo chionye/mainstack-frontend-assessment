@@ -103,3 +103,17 @@ export interface TransactionIconProps {
   type: "deposit" | "withdrawal";
   size?: string;
 }
+
+export interface ExportButtonProps {
+  onClick?: () => void;
+}
+
+export interface PeriodButtonGroupProps {
+  selectedPeriod?: string;
+  onPeriodChange?: (period: string) => void;
+}
+
+export interface TransactionCountProps {
+  count: number;
+  period: string;
+}

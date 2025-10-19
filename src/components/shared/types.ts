@@ -35,3 +35,9 @@ export interface MultiSelectCheckboxProps {
   isOpen: boolean;
   onOpenChange: () => void;
 }
+
+export interface DatePickerProps {
+  label?: string;
+  value?: Date;
+  onChange: (date: string) => void;
+}

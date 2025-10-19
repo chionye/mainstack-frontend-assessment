@@ -1,12 +1,9 @@
 /** @format */
 
 import { Button, HStack, Text } from "@chakra-ui/react";
-import { Icon } from "@iconify-icon/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
-
-interface ExportButtonProps {
-  onClick?: () => void;
-}
+import { Icons } from "@/constants/icons";
+import type { ExportButtonProps } from "./types";
 
 const ExportButton = ({ onClick }: ExportButtonProps) => {
   const bgColor = useColorModeValue("#EFF1F6", "gray.700");
@@ -32,7 +29,7 @@ const ExportButton = ({ onClick }: ExportButtonProps) => {
       }}>
       <HStack gap={1}>
         <Text fontSize='14px'>Export list</Text>
-        <Icon icon='prime:download' width='13' height='13' />
+        <Icons.download />
       </HStack>
     </Button>
   );

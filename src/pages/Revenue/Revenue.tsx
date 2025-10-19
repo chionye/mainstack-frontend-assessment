@@ -4,10 +4,6 @@ import { useCallback, useMemo, useEffect } from "react";
 import {
   Box,
   Flex,
-  VStack,
-  Text,
-  Button,
-  Heading,
   useDisclosure,
 } from "@chakra-ui/react";
 import BalanceSection from "@/components/layout/revenue/revenue-balance";
@@ -18,6 +14,7 @@ import Loader from "@/components/shared/Loader";
 import FilterDrawer from "@/components/layout/revenue/transactions/FilterDrawer";
 import TransactionList from "@/components/layout/revenue/transactions/TransactionList";
 import TransactionHeader from "@/components/layout/revenue/transactions/TransactionHeader";
+import ErrorState from "@/components/layout/revenue/revenue-balance/ErrorState";
 
 const Revenue = () => {
   const {
@@ -93,21 +90,11 @@ const Revenue = () => {
 
   if (walletError || transactionsError) {
     return (
-      <Flex justify='center' align='center' minH='100vh' px={4}>
-        <VStack gap={6} maxW='md' textAlign='center'>
-          <Heading size='lg' color='red.600'>
-            Failed to load revenue data
-          </Heading>
-          <Text color='gray.600' fontSize='md'>
-            {(walletError as Error)?.message ||
-              (transactionsError as Error)?.message ||
-              "An error occurred while fetching your revenue information"}
-          </Text>
-          <Button onClick={handleRetry} colorPalette='blue' size='lg'>
-            Retry
-          </Button>
-        </VStack>
-      </Flex>
+      <ErrorState
+        handleRetry={handleRetry}
+        walletError={walletError}
+        transactionsError={transactionsError}
+      />
     );
   }
 

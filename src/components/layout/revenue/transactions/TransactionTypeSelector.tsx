@@ -1,7 +1,7 @@
 /** @format */
 
 import { selectTransactionTypeItems } from "@/constants/data";
-import MultiSelectCheckbox from "../../../shared/MultiSelectCheckbox";
+import MultiSelectCheckbox from "@/components/shared/MultiSelectCheckbox";
 import type { TransactionTypeSelectorProps } from "./types";
 
 const TransactionTypeSelector = ({

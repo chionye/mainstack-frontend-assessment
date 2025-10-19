@@ -2,12 +2,8 @@
 
 import { Box, VStack, useBreakpointValue } from "@chakra-ui/react";
 import { generatePascalCase } from "@/services/helpers";
-import type { WalletStats } from "./types";
 import StatItem from "./StatItem";
-
-interface WalletStatsPanelProps {
-  walletStats?: WalletStats;
-}
+import type { WalletStatsPanelProps } from "./types";
 
 const WalletStatsPanel = ({ walletStats }: WalletStatsPanelProps) => {
   const width = useBreakpointValue({ base: "full", md: "271px" });

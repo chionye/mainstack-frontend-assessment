@@ -51,3 +51,7 @@ export interface ErrorStateProps {
   walletError: Error | null;
   transactionsError: Error | null;
 }
+
+export interface WalletStatsPanelProps {
+  walletStats?: WalletStats;
+}

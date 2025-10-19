@@ -1,4 +1,3 @@
-/** @format */
 
 export const Icons = {
   link: ({ size = "24" }: { size?: string }) => (

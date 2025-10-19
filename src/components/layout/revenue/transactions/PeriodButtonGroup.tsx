@@ -4,11 +4,7 @@ import { memo, useCallback } from "react";
 import { HStack } from "@chakra-ui/react";
 import { filterButtonItems } from "@/constants/data";
 import CustomButton from "@/components/shared/Button";
-
-interface PeriodButtonGroupProps {
-  selectedPeriod?: string;
-  onPeriodChange?: (period: string) => void;
-}
+import type { PeriodButtonGroupProps } from "./types";
 
 const PeriodButtonGroup = ({
   selectedPeriod = "all time",
