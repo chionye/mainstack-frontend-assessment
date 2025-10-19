@@ -24,8 +24,8 @@ This is a frontend assessment project built with React, TypeScript, Chakra-UI an
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/chionye/mainstack-assessment.git
-   cd mainstack-assessment
+   git clone https://github.com/chionye/mainstack-frontend-assessment.git
+   cd mainstack-frontend-assessment
    ```
 
 2. **Install dependencies**
