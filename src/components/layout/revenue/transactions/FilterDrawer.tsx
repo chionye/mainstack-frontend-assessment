@@ -52,7 +52,7 @@ const FilterDrawer = ({
       <Drawer.Positioner p={2}>
         <Drawer.Content bg={bgColor} rounded='xl'>
           <Drawer.Header>
-            <Text fontSize='20px' fontWeight='semibold' color={titleColor}>
+            <Text fontSize='20px' fontWeight='bold' color={titleColor}>
               Filter
             </Text>
             <Drawer.CloseTrigger>
