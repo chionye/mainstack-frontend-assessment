@@ -29,7 +29,7 @@ export const generatePascalCase = (word: string) => {
   }
   return word
     .split("_")
-    .filter((w) => w.length > 0) // Filter out empty strings from multiple underscores
+    .filter((w) => w.length > 0)
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(" ");
 };
