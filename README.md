@@ -57,14 +57,6 @@ npm test
 yarn test
 ```
 
-For test coverage:
-
-```bash
-npm run test:coverage
-# or
-yarn test:coverage
-```
-
 For test ui:
 
 ```bash
@@ -74,26 +66,31 @@ yarn test:ui
 ```
 
 For E2E test:
+
 ```bash
 npm run test:e2e
 ```
 
-For E2E test in UI mode (interactive):
+For E2E test in UI mode:
+
 ```bash
 npm run test:e2e:ui
 ```
 
-For E2E test in headed mode (see browser):
+For E2E test in headed mode:
+
 ```bash
 npm run test:e2e:headed
 ```
 
 For E2E test for specific browser:
+
 ```bash
 npm run test:e2e:chromium
 ```
 
 For E2E test report:
+
 ```bash
 npm run test:e2e:report
 ```
@@ -137,6 +134,7 @@ src/
 - date-fns
 - Vitest
 - React Testing Library
+- Playwright
 
 ## 📝 Notes
 
