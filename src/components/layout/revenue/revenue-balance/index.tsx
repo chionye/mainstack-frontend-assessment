@@ -1,18 +1,13 @@
 /** @format */
 
 import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
-import type { BalanceSectionProps } from "./types";
 import Chart from "@/components/layout/revenue/Chart";
 import BalanceCard from "./BalanceCard";
 import WalletStatsPanel from "./WalletStatsPanel";
+import { useFilterStore } from "@/store/useFilterStore";
 
-const BalanceSection = ({
-  balance,
-  walletStats,
-  chartData,
-  onWithdraw,
-  amountFontSize = "36px",
-}: BalanceSectionProps) => {
+const BalanceSection = () => {
+  const { filteredData } = useFilterStore();
   const flexDirection = useBreakpointValue<"column" | "row">({
     base: "column",
     md: "row",
@@ -23,18 +18,12 @@ const BalanceSection = ({
       direction={flexDirection}
       justify='space-between'
       gap={{ base: 10, md: 0 }}>
-      {/* Left Section - Balance & Chart */}
       <Box flex={1}>
-        <BalanceCard
-          balance={balance}
-          onWithdraw={onWithdraw}
-          amountFontSize={amountFontSize}
-        />
-        <Chart data={chartData} />
+        <BalanceCard />
+        <Chart data={filteredData} />
       </Box>
 
-      {/* Right Section - Wallet Stats */}
-      <WalletStatsPanel walletStats={walletStats} />
+      <WalletStatsPanel />
     </Flex>
   );
 };

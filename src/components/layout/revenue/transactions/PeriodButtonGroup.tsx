@@ -4,17 +4,16 @@ import { memo, useCallback } from "react";
 import { HStack } from "@chakra-ui/react";
 import { filterButtonItems } from "@/constants/data";
 import CustomButton from "@/components/shared/Button";
-import type { PeriodButtonGroupProps } from "./types";
+import { useFilterStore } from "@/store/useFilterStore";
 
-const PeriodButtonGroup = ({
-  selectedPeriod = "all time",
-  onPeriodChange,
-}: PeriodButtonGroupProps) => {
+const PeriodButtonGroup = () => {
+  const { transactionPeriod, setTransactionPeriod } = useFilterStore();
+
   const handlePeriodClick = useCallback(
     (label: string) => {
-      onPeriodChange?.(label.toLowerCase());
+      setTransactionPeriod(label.toLowerCase());
     },
-    [onPeriodChange]
+    [setTransactionPeriod]
   );
 
   return (
@@ -24,7 +23,7 @@ const PeriodButtonGroup = ({
       flexWrap={{ base: "wrap", lg: "nowrap" }}
       gap={{ base: 2, md: 3 }}>
       {filterButtonItems.map((item) => {
-        const isSelected = selectedPeriod === item.label.toLowerCase();
+        const isSelected = transactionPeriod === item.label.toLowerCase();
         return (
           <CustomButton
             key={item.label}

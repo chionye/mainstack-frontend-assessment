@@ -1,6 +1,6 @@
 /** @format */
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Button,
   Popover,
@@ -38,15 +38,12 @@ const DatePicker = ({
   width,
   onChange,
 }: DatePickerProps) => {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(value);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [isOpen, setIsOpen] = useState(false);
   const [showYearPicker, setShowYearPicker] = useState(false);
 
-  // Sync internal state with value prop
-  useEffect(() => {
-    setSelectedDate(value);
-  }, [value]);
+  // Use the value prop directly as the selected date
+  const selectedDate = value;
 
   const bgColor = useColorModeValue("#EFF1F6", "gray.700");
   const textColor = useColorModeValue("#131316", "white");
@@ -66,9 +63,13 @@ const DatePicker = ({
   const emptyDays = Array(startDayOfWeek).fill(null);
 
   const handleDateSelect = (date: Date) => {
-    setSelectedDate(date);
-    onChange(date.toISOString().split("T")[0]);
-    setIsOpen(false);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    onChange(`${year}-${month}-${day}`);
+    setTimeout(() => {
+      setIsOpen(false);
+    }, 0);
   };
 
   const handleYearSelect = (year: number) => {
@@ -142,9 +143,7 @@ const DatePicker = ({
                   {format(currentMonth, "MMMM yyyy")}
                   <Icon
                     icon={
-                      showYearPicker
-                        ? "ph:caret-up-bold"
-                        : "ph:caret-down-bold"
+                      showYearPicker ? "ph:caret-up-bold" : "ph:caret-down-bold"
                     }
                     width='12'
                     height='12'

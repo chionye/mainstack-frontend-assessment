@@ -3,9 +3,10 @@
 import { Box, VStack, useBreakpointValue } from "@chakra-ui/react";
 import { generatePascalCase } from "@/services/helpers";
 import StatItem from "./StatItem";
-import type { WalletStatsPanelProps } from "./types";
+import { useWalletStore } from "@/store/useWalletStore";
 
-const WalletStatsPanel = ({ walletStats }: WalletStatsPanelProps) => {
+const WalletStatsPanel = () => {
+  const { walletStats } = useWalletStore();
   const width = useBreakpointValue({ base: "full", md: "271px" });
   const padding = useBreakpointValue({ base: 5, md: 0 });
   const marginTop = useBreakpointValue({ base: 10, md: 0 });

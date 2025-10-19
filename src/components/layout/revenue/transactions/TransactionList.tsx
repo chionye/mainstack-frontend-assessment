@@ -1,22 +1,22 @@
 /** @format */
 
 import { VStack } from "@chakra-ui/react";
-import type { TransactionListProps } from "./types";
+import { useFilterStore } from "@/store/useFilterStore";
+import { useUIStore } from "@/store/useUIStore";
 import EmptyState from "./EmptyState";
 import TransactionItem from "./TransactionItem";
 
-const TransactionList = ({
-  transactions,
-  onClearFilter,
-  amountFontSize = "16px",
-}: TransactionListProps) => {
-  if (transactions.length === 0) {
-    return <EmptyState onClearFilter={onClearFilter} />;
+const TransactionList = () => {
+  const { filteredData, clearFilter } = useFilterStore();
+  const { amountFontSize } = useUIStore();
+
+  if (filteredData.length === 0) {
+    return <EmptyState onClearFilter={clearFilter} />;
   }
 
   return (
     <VStack gap={6} align='stretch' mt={6} pb={10}>
-      {transactions.map((transaction) => (
+      {filteredData.map((transaction) => (
         <TransactionItem
           key={transaction.payment_reference}
           transaction={transaction}

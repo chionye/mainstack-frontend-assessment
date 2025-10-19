@@ -9,44 +9,52 @@ import TransactionStatusSelector from "./TransactionStatusSelector";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import CustomButton from "@/components/shared/Button";
 import { Icons } from "@/constants/icons";
-import type { FilterDrawerProps } from "./types";
+import { useFilterStore } from "@/store/useFilterStore";
+import { useUIStore } from "@/store/useUIStore";
 
-const FilterDrawer = ({
-  isOpen,
-  onClose,
-  transactionPeriod,
-  onPeriodChange,
-  onStartDateChange,
-  onEndDateChange,
-  selectedTypes,
-  selectedStatuses,
-  onTypeToggle,
-  onStatusToggle,
-  onApply,
-  onClear,
-  startDate,
-  endDate,
-}: FilterDrawerProps) => {
+const FilterDrawer = () => {
   const [typeMenuOpen, setTypeMenuOpen] = useState(false);
   const [statusMenuOpen, setStatusMenuOpen] = useState(false);
 
   const bgColor = useColorModeValue("white", "gray.800");
   const titleColor = useColorModeValue("#131316", "white");
 
+  const {
+    transactionPeriod,
+    selectedItems,
+    startDate,
+    endDate,
+    toggleSelection,
+    applyFilter,
+    clearFilter,
+  } = useFilterStore();
+
+  const { isFilterDrawerOpen, closeFilterDrawer } = useUIStore();
+
   const hasActiveFilters = useMemo(() => {
     const hasCustomDates = startDate && endDate;
     const hasPeriod = transactionPeriod !== "all time";
-    const hasTypes = selectedTypes.length > 0;
-    const hasStatuses = selectedStatuses.length > 0;
+    const hasTypes = selectedItems.trans_type.length > 0;
+    const hasStatuses = selectedItems.trans_status.length > 0;
 
     return hasCustomDates || hasPeriod || hasTypes || hasStatuses;
-  }, [transactionPeriod, startDate, endDate, selectedTypes, selectedStatuses]);
+  }, [transactionPeriod, startDate, endDate, selectedItems]);
+
+  const handleApply = () => {
+    applyFilter();
+    closeFilterDrawer();
+  };
+
+  const handleClear = () => {
+    clearFilter();
+    closeFilterDrawer();
+  };
 
   return (
     <Drawer.Root
-      open={isOpen}
+      open={isFilterDrawerOpen}
       placement='end'
-      onOpenChange={(e) => !e.open && onClose()}
+      onOpenChange={(e) => !e.open && closeFilterDrawer()}
       size='md'>
       <Drawer.Backdrop />
       <Drawer.Positioner p={2}>
@@ -67,30 +75,21 @@ const FilterDrawer = ({
             h='full'
             w='full'>
             <VStack gap={4} align='stretch' flex={1}>
-              <PeriodButtonGroup
-                selectedPeriod={transactionPeriod}
-                onPeriodChange={onPeriodChange}
-              />
+              <PeriodButtonGroup />
 
-              <DateRangeSelector
-                label='Date range'
-                startDate={startDate}
-                endDate={endDate}
-                onStartDateChange={onStartDateChange}
-                onEndDateChange={onEndDateChange}
-              />
+              <DateRangeSelector />
 
               <TransactionTypeSelector
                 isOpen={typeMenuOpen}
-                selectedItems={selectedTypes}
-                onToggle={onTypeToggle}
+                selectedItems={selectedItems.trans_type}
+                onToggle={(type) => toggleSelection(type, "trans_type")}
                 onOpenChange={() => setTypeMenuOpen(!typeMenuOpen)}
               />
 
               <TransactionStatusSelector
                 isOpen={statusMenuOpen}
-                selectedItems={selectedStatuses}
-                onToggle={onStatusToggle}
+                selectedItems={selectedItems.trans_status}
+                onToggle={(status) => toggleSelection(status, "trans_status")}
                 onOpenChange={() => setStatusMenuOpen(!statusMenuOpen)}
               />
             </VStack>
@@ -105,10 +104,7 @@ const FilterDrawer = ({
                 fontWeight='semibold'
                 fontSize='14px'
                 _hover={{ bg: "gray.100" }}
-                onClick={() => {
-                  onClear();
-                  onClose();
-                }}>
+                onClick={handleClear}>
                 Clear
               </CustomButton>
               <CustomButton
@@ -122,11 +118,7 @@ const FilterDrawer = ({
                   !hasActiveFilters ? { bg: "#DBDEE5" } : { bg: "#131316" }
                 }
                 _active={!hasActiveFilters ? { bg: "#DBDEE5" } : undefined}
-                onClick={() => {
-                  if (hasActiveFilters) {
-                    onApply();
-                  }
-                }}>
+                onClick={handleApply}>
                 Apply
               </CustomButton>
             </HStack>

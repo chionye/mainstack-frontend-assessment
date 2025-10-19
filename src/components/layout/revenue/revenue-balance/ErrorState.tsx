@@ -2,14 +2,17 @@
 
 import { VStack, Heading, Text, Button, Box } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
-import type { ErrorStateProps } from "./types";
 import { Icons } from "@/constants/icons";
+import { useActionsStore } from "@/store/useActionsStore";
 
 const ErrorState = ({
-  handleRetry,
   walletError,
   transactionsError,
-}: ErrorStateProps) => {
+}: {
+  walletError: Error | null;
+  transactionsError: Error | null;
+}) => {
+  const { handleRetry } = useActionsStore();
   const headingColor = useColorModeValue("#131316", "white");
   const textColor = useColorModeValue("#56616B", "gray.400");
   const badgeBg = useColorModeValue("#DBDEE5", "gray.700");

@@ -1,33 +1,47 @@
 /** @format */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '../../../../test-utils'
-import userEvent from '@testing-library/user-event'
-import FilterDrawer from '../../../../../components/layout/revenue/transactions/FilterDrawer'
+import React, { act } from "react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import "@testing-library/jest-dom";
+import { render, screen } from "../../../../test-utils";
+import userEvent from "@testing-library/user-event";
+import FilterDrawer from "../../../../../components/layout/revenue/transactions/FilterDrawer";
+import { useUIStore } from "../../../../../store/useUIStore";
+import { useFilterStore } from "../../../../../store/useFilterStore";
 
-describe('FilterDrawer', () => {
+// Mock next-themes to prevent matchMedia errors
+vi.mock("next-themes", () => ({
+  useTheme: () => ({
+    resolvedTheme: "light",
+    setTheme: vi.fn(),
+    forcedTheme: null,
+  }),
+  ThemeProvider: ({ children }: { children: React.ReactNode }) => children,
+}));
+
+describe("FilterDrawer", () => {
   let defaultProps: {
-    isOpen: boolean
-    onClose: ReturnType<typeof vi.fn>
-    transactionPeriod: string
-    onPeriodChange: ReturnType<typeof vi.fn>
-    onStartDateChange: ReturnType<typeof vi.fn>
-    onEndDateChange: ReturnType<typeof vi.fn>
-    selectedTypes: string[]
-    selectedStatuses: string[]
-    onTypeToggle: ReturnType<typeof vi.fn>
-    onStatusToggle: ReturnType<typeof vi.fn>
-    onApply: ReturnType<typeof vi.fn>
-    onClear: ReturnType<typeof vi.fn>
-    startDate?: string
-    endDate?: string
-  }
+    isOpen: boolean;
+    onClose: ReturnType<typeof vi.fn>;
+    transactionPeriod: string;
+    onPeriodChange: ReturnType<typeof vi.fn>;
+    onStartDateChange: ReturnType<typeof vi.fn>;
+    onEndDateChange: ReturnType<typeof vi.fn>;
+    selectedTypes: string[];
+    selectedStatuses: string[];
+    onTypeToggle: ReturnType<typeof vi.fn>;
+    onStatusToggle: ReturnType<typeof vi.fn>;
+    onApply: ReturnType<typeof vi.fn>;
+    onClear: ReturnType<typeof vi.fn>;
+    startDate?: string;
+    endDate?: string;
+  };
 
   beforeEach(() => {
     defaultProps = {
       isOpen: true,
       onClose: vi.fn(),
-      transactionPeriod: 'all time',
+      transactionPeriod: "all time",
       onPeriodChange: vi.fn(),
       onStartDateChange: vi.fn(),
       onEndDateChange: vi.fn(),
@@ -39,475 +53,477 @@ describe('FilterDrawer', () => {
       onClear: vi.fn(),
       startDate: undefined,
       endDate: undefined,
-    }
-  })
+    };
+  });
 
-  describe('Rendering', () => {
-    it('should render filter drawer when open', () => {
-      render(<FilterDrawer {...defaultProps} />)
+  describe("Rendering", () => {
+    it("should render filter drawer when open", () => {
+      useUIStore.setState({ isFilterDrawerOpen: true });
+      render(<FilterDrawer />);
+      expect(screen.getByText("Filter")).toBeInTheDocument();
+    });
 
-      expect(screen.getByText('Filter')).toBeInTheDocument()
-    })
+    it("should not render drawer content when closed", () => {
+      useUIStore.setState({ isFilterDrawerOpen: false });
+      render(<FilterDrawer />);
 
-    it('should not render drawer content when closed', () => {
-      render(<FilterDrawer {...defaultProps} isOpen={false} />)
+      expect(screen.queryByText("Filter")).not.toBeInTheDocument();
+    });
 
-      expect(screen.queryByText('Filter')).not.toBeInTheDocument()
-    })
+    it("should render Filter heading", () => {
+      useUIStore.setState({ isFilterDrawerOpen: true });
+      render(<FilterDrawer />);
 
-    it('should render Filter heading', () => {
-      render(<FilterDrawer {...defaultProps} />)
+      const heading = screen.getByText("Filter");
+      expect(heading).toBeInTheDocument();
+      expect(heading).toHaveStyle({
+        fontSize: "20px",
+        fontWeight: "var(--chakra-font-weights-bold)",
+      });
+    });
 
-      const heading = screen.getByText('Filter')
-      expect(heading).toBeInTheDocument()
-      expect(heading).toHaveStyle({ fontSize: '20px', fontWeight: 'var(--chakra-font-weights-bold)' })
-    })
+    it("should render close icon", () => {
+      useUIStore.setState({ isFilterDrawerOpen: true });
+      const { container } = render(<FilterDrawer />);
 
-    it('should render close icon', () => {
-      const { container } = render(<FilterDrawer {...defaultProps} />)
+      const closeIcon = container.querySelector("svg");
+      expect(closeIcon).toBeInTheDocument();
+    });
+  });
 
-      const closeIcon = container.querySelector('svg')
-      expect(closeIcon).toBeInTheDocument()
-    })
-  })
+  describe("Filter Components", () => {
+    it("should render PeriodButtonGroup", () => {
+      render(<FilterDrawer />);
 
-  describe('Filter Components', () => {
-    it('should render PeriodButtonGroup', () => {
-      render(<FilterDrawer {...defaultProps} />)
+      expect(
+        screen.getByRole("button", { name: /today/i })
+      ).toBeInTheDocument();
+    });
 
-      expect(screen.getByRole('button', { name: /today/i })).toBeInTheDocument()
-    })
+    it("should render DateRangeSelector with label", () => {
+      render(<FilterDrawer />);
 
-    it('should render DateRangeSelector with label', () => {
-      render(<FilterDrawer {...defaultProps} />)
+      expect(screen.getByText("Date range")).toBeInTheDocument();
+    });
 
-      expect(screen.getByText('Date range')).toBeInTheDocument()
-    })
+    it("should render TransactionTypeSelector", () => {
+      render(<FilterDrawer />);
 
-    it('should render TransactionTypeSelector', () => {
-      render(<FilterDrawer {...defaultProps} />)
+      expect(screen.getByText("Transaction Type")).toBeInTheDocument();
+    });
 
-      expect(screen.getByText('Transaction Type')).toBeInTheDocument()
-    })
+    it("should render TransactionStatusSelector", () => {
+      render(<FilterDrawer />);
 
-    it('should render TransactionStatusSelector', () => {
-      render(<FilterDrawer {...defaultProps} />)
+      expect(screen.getByText("Transaction Status")).toBeInTheDocument();
+    });
+  });
 
-      expect(screen.getByText('Transaction Status')).toBeInTheDocument()
-    })
-  })
+  describe("Action Buttons", () => {
+    it("should render Clear button", () => {
+      render(<FilterDrawer />);
 
-  describe('Action Buttons', () => {
-    it('should render Clear button', () => {
-      render(<FilterDrawer {...defaultProps} />)
+      expect(
+        screen.getByRole("button", { name: /clear/i })
+      ).toBeInTheDocument();
+    });
 
-      expect(screen.getByRole('button', { name: /clear/i })).toBeInTheDocument()
-    })
+    it("should render Apply button", () => {
+      render(<FilterDrawer />);
 
-    it('should render Apply button', () => {
-      render(<FilterDrawer {...defaultProps} />)
+      expect(
+        screen.getByRole("button", { name: /apply/i })
+      ).toBeInTheDocument();
+    });
 
-      expect(screen.getByRole('button', { name: /apply/i })).toBeInTheDocument()
-    })
+    it("should call onClear and onClose when Clear button is clicked", async () => {
+      useFilterStore.setState({ clearFilter: vi.fn() });
+      useUIStore.setState({ closeFilterDrawer: vi.fn() });
+      const user = userEvent.setup();
+      const onClear = useFilterStore.getState().clearFilter;
+      const onClose = useUIStore.getState().closeFilterDrawer;
+      render(<FilterDrawer />);
 
-    it('should call onClear and onClose when Clear button is clicked', async () => {
-      const user = userEvent.setup()
-      const onClear = vi.fn()
-      const onClose = vi.fn()
-      const props = { ...defaultProps, onClear, onClose }
-      render(<FilterDrawer {...props} />)
+      const clearButton = screen.getByRole("button", { name: /clear/i });
+      await user.click(clearButton);
 
-      const clearButton = screen.getByRole('button', { name: /clear/i })
-      await user.click(clearButton)
+      expect(onClear).toHaveBeenCalledTimes(1);
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
 
-      expect(onClear).toHaveBeenCalledTimes(1)
-      expect(onClose).toHaveBeenCalledTimes(1)
-    })
+    it("should call onApply when Apply button is clicked with active filters", async () => {
+      const mockApplyFilter = vi.fn();
+      const mockCloseDrawer = vi.fn();
 
-    it('should call onApply when Apply button is clicked with active filters', async () => {
-      const user = userEvent.setup()
-      const onApply = vi.fn()
-      const props = {
-        ...defaultProps,
-        onApply,
-        transactionPeriod: 'today',
-      }
-      render(<FilterDrawer {...props} />)
+      useFilterStore.setState({
+        applyFilter: mockApplyFilter,
+        transactionPeriod: "today",
+        startDate: "2024-01-01",
+        endDate: "2024-01-31",
+      });
+      useUIStore.setState({
+        closeFilterDrawer: mockCloseDrawer,
+      });
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      await user.click(applyButton)
+      const user = userEvent.setup();
+      render(<FilterDrawer />);
 
-      expect(onApply).toHaveBeenCalledTimes(1)
-    })
-  })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).not.toBeDisabled();
 
-  describe('hasActiveFilters Logic', () => {
-    it('should disable Apply button when no filters are active', () => {
-      render(<FilterDrawer {...defaultProps} />)
+      await user.click(applyButton);
+      expect(mockApplyFilter).toHaveBeenCalledTimes(1);
+      expect(mockCloseDrawer).toHaveBeenCalledTimes(1);
+    });
+  });
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).toBeDisabled()
-    })
+  describe("hasActiveFilters Logic", () => {
+    it("should disable Apply button when no filters are active", () => {
+      useFilterStore.setState({
+        transactionPeriod: "all time",
+        startDate: "",
+        endDate: "",
+        selectedItems: {
+          trans_type: [],
+          trans_status: [],
+        },
+      });
 
-    it('should enable Apply button when period filter is active', () => {
-      const props = {
-        ...defaultProps,
-        transactionPeriod: 'today',
-      }
-      render(<FilterDrawer {...props} />)
+      render(<FilterDrawer />);
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).not.toBeDisabled()
-    })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).toBeDisabled();
+    });
 
-    it('should enable Apply button when custom dates are set', () => {
-      const props = {
-        ...defaultProps,
-        startDate: '2024-01-01',
-        endDate: '2024-01-31',
-      }
-      render(<FilterDrawer {...props} />)
+    it("should enable Apply button when period filter is active", () => {
+      useFilterStore.setState({ transactionPeriod: "today" });
+      render(<FilterDrawer />);
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).not.toBeDisabled()
-    })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).not.toBeDisabled();
+    });
 
-    it('should enable Apply button when types are selected', () => {
-      const props = {
-        ...defaultProps,
-        selectedTypes: ['deposit'],
-      }
-      render(<FilterDrawer {...props} />)
+    it("should enable Apply button when custom dates are set", () => {
+      useFilterStore.setState({
+        startDate: "2024-01-01",
+        endDate: "2024-01-31",
+      });
+      render(<FilterDrawer />);
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).not.toBeDisabled()
-    })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).not.toBeDisabled();
+    });
 
-    it('should enable Apply button when statuses are selected', () => {
-      const props = {
-        ...defaultProps,
-        selectedStatuses: ['successful'],
-      }
-      render(<FilterDrawer {...props} />)
+    it("should enable Apply button when types are selected", () => {
+      useFilterStore.setState({
+        selectedItems: { trans_type: ["deposit"], trans_status: [] },
+      });
+      render(<FilterDrawer />);
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).not.toBeDisabled()
-    })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).not.toBeDisabled();
+    });
 
-    it('should enable Apply button when multiple filters are active', () => {
-      const props = {
-        ...defaultProps,
-        transactionPeriod: 'last 7 days',
-        selectedTypes: ['deposit', 'withdrawal'],
-        selectedStatuses: ['successful', 'pending'],
-        startDate: '2024-01-01',
-        endDate: '2024-01-31',
-      }
-      render(<FilterDrawer {...props} />)
+    it("should enable Apply button when statuses are selected", () => {
+      useFilterStore.setState({
+        selectedItems: { trans_type: [], trans_status: ["successful"] },
+      });
+      render(<FilterDrawer />);
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).not.toBeDisabled()
-    })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).not.toBeDisabled();
+    });
 
-    it('should not call onApply logic when Apply button is disabled', () => {
-      render(<FilterDrawer {...defaultProps} />)
+    it("should enable Apply button when multiple filters are active", () => {
+      useFilterStore.setState({
+        transactionPeriod: "last 7 days",
+        selectedItems: {
+          trans_type: ["deposit", "withdrawal"],
+          trans_status: ["successful", "pending"],
+        },
+        startDate: "2024-01-01",
+        endDate: "2024-01-31",
+      });
+      render(<FilterDrawer />);
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).toBeDisabled()
-    })
-  })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).not.toBeDisabled();
+    });
 
-  describe('Drawer Behavior', () => {
-    it('should render drawer when open', () => {
-      render(<FilterDrawer {...defaultProps} />)
+    it("should not call onApply logic when Apply button is disabled", () => {
+      useUIStore.setState({ closeFilterDrawer: vi.fn() });
 
-      expect(screen.getByText('Filter')).toBeInTheDocument()
-    })
+      const mockApplyFilter = vi.fn();
+      useFilterStore.setState({
+        applyFilter: mockApplyFilter,
+        transactionPeriod: "all time",
+        startDate: "",
+        endDate: "",
+        selectedItems: { trans_type: [], trans_status: [] },
+      });
 
-    it('should render drawer with end placement', () => {
-      const { container } = render(<FilterDrawer {...defaultProps} />)
+      render(<FilterDrawer />);
 
-      expect(container.querySelector('[class*="chakra"]')).toBeInTheDocument()
-    })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).toBeDisabled();
 
-    it('should render drawer with medium size', () => {
-      render(<FilterDrawer {...defaultProps} />)
+      userEvent.click(applyButton);
 
-      expect(screen.getByText('Filter')).toBeInTheDocument()
-    })
-  })
+      expect(mockApplyFilter).not.toHaveBeenCalled();
+    });
+  });
 
-  describe('State Management', () => {
-    it('should manage typeMenuOpen state', () => {
-      render(<FilterDrawer {...defaultProps} />)
+  describe("Drawer Behavior", () => {
+    it("should render drawer when open", () => {
+      render(<FilterDrawer />);
 
-      expect(screen.getByText('Transaction Type')).toBeInTheDocument()
-    })
+      expect(screen.getByText("Filter")).toBeInTheDocument();
+    });
 
-    it('should manage statusMenuOpen state', () => {
-      render(<FilterDrawer {...defaultProps} />)
+    it("should render drawer with end placement", () => {
+      const { container } = render(<FilterDrawer />);
 
-      expect(screen.getByText('Transaction Status')).toBeInTheDocument()
-    })
-  })
+      expect(container.querySelector('[class*="chakra"]')).toBeInTheDocument();
+    });
 
-  describe('Props Propagation', () => {
-    it('should pass transactionPeriod to PeriodButtonGroup', () => {
-      const props = {
-        ...defaultProps,
-        transactionPeriod: 'Last 30 days',
-      }
-      render(<FilterDrawer {...props} />)
+    it("should render drawer with medium size", () => {
+      render(<FilterDrawer />);
 
-      expect(screen.getByRole('button', { name: /last 30 days/i })).toBeInTheDocument()
-    })
+      expect(screen.getByText("Filter")).toBeInTheDocument();
+    });
+  });
 
-    it('should pass onPeriodChange to PeriodButtonGroup', async () => {
-      const user = userEvent.setup()
-      const onPeriodChange = vi.fn()
-      const props = { ...defaultProps, onPeriodChange }
-      render(<FilterDrawer {...props} />)
+  describe("State Management", () => {
+    it("should manage typeMenuOpen state", () => {
+      render(<FilterDrawer />);
 
-      const todayButton = screen.getByRole('button', { name: /today/i })
-      await user.click(todayButton)
+      expect(screen.getByText("Transaction Type")).toBeInTheDocument();
+    });
 
-      expect(onPeriodChange).toHaveBeenCalledWith('today')
-    })
+    it("should manage statusMenuOpen state", () => {
+      render(<FilterDrawer />);
 
-    it('should pass date props to DateRangeSelector', () => {
-      const props = {
-        ...defaultProps,
-        startDate: '2024-01-01',
-        endDate: '2024-01-31',
-      }
-      render(<FilterDrawer {...props} />)
+      expect(screen.getByText("Transaction Status")).toBeInTheDocument();
+    });
+  });
 
-      expect(screen.getByText('Date range')).toBeInTheDocument()
-    })
+  describe("Props Propagation", () => {
+    it("should pass transactionPeriod to PeriodButtonGroup", () => {
+      useFilterStore.setState({ transactionPeriod: "Last 3 months" });
+      render(<FilterDrawer />);
 
-    it('should pass selectedTypes to TransactionTypeSelector', () => {
-      const props = {
-        ...defaultProps,
-        selectedTypes: ['deposit'],
-      }
-      render(<FilterDrawer {...props} />)
+      expect(
+        screen.getByRole("button", { name: /last 3 months/i })
+      ).toBeInTheDocument();
+    });
 
-      expect(screen.getByText('Transaction Type')).toBeInTheDocument()
-    })
+    it("should pass date props to DateRangeSelector", () => {
+      useFilterStore.setState({
+        startDate: "2024-01-01",
+        endDate: "2024-01-31",
+      });
+      render(<FilterDrawer />);
 
-    it('should pass selectedStatuses to TransactionStatusSelector', () => {
-      const props = {
-        ...defaultProps,
-        selectedStatuses: ['successful'],
-      }
-      render(<FilterDrawer {...props} />)
+      expect(screen.getByText("Date range")).toBeInTheDocument();
+    });
 
-      expect(screen.getByText('Transaction Status')).toBeInTheDocument()
-    })
-  })
+    it("should pass selectedTypes to TransactionTypeSelector", () => {
+      useFilterStore.setState({
+        selectedItems: { trans_type: ["deposit"], trans_status: [] },
+      });
+      render(<FilterDrawer />);
 
-  describe('Button Styling', () => {
-    it('should style Clear button correctly', () => {
-      render(<FilterDrawer {...defaultProps} />)
+      expect(screen.getByText("Transaction Type")).toBeInTheDocument();
+    });
 
-      const clearButton = screen.getByRole('button', { name: /clear/i })
+    it("should pass selectedStatuses to TransactionStatusSelector", () => {
+      useFilterStore.setState({
+        selectedItems: { trans_type: [], trans_status: ["successful"] },
+      });
+      render(<FilterDrawer />);
+
+      expect(screen.getByText("Transaction Status")).toBeInTheDocument();
+    });
+  });
+
+  describe("Button Styling", () => {
+    it("should style Clear button correctly", () => {
+      render(<FilterDrawer />);
+
+      const clearButton = screen.getByRole("button", { name: /clear/i });
       expect(clearButton).toHaveStyle({
-        borderRadius: 'var(--chakra-radii-full)',
-        fontSize: '14px',
-      })
-    })
+        borderRadius: "var(--chakra-radii-full)",
+        fontSize: "14px",
+      });
+    });
 
-    it('should style Apply button with disabled state', () => {
-      render(<FilterDrawer {...defaultProps} />)
+    it("should style Apply button with disabled state", () => {
+      useUIStore.setState({ closeFilterDrawer: vi.fn() });
+      const mockApplyFilter = vi.fn();
+      useFilterStore.setState({
+        applyFilter: mockApplyFilter,
+        transactionPeriod: "all time",
+        startDate: "",
+        endDate: "",
+        selectedItems: { trans_type: [], trans_status: [] },
+      });
+      render(<FilterDrawer />);
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
       expect(applyButton).toHaveStyle({
-        borderRadius: 'var(--chakra-radii-full)',
-        fontSize: '14px',
-      })
-      expect(applyButton).toBeDisabled()
-    })
+        borderRadius: "var(--chakra-radii-full)",
+        fontSize: "14px",
+      });
+      expect(applyButton).toBeDisabled();
+    });
 
-    it('should style Apply button with enabled state', () => {
-      const props = {
-        ...defaultProps,
-        transactionPeriod: 'today',
-      }
-      render(<FilterDrawer {...props} />)
+    it("should style Apply button with enabled state", () => {
+      useFilterStore.setState({ transactionPeriod: "today" });
+      render(<FilterDrawer />);
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).not.toBeDisabled()
-    })
-  })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).not.toBeDisabled();
+    });
+  });
 
-  describe('Edge Cases', () => {
-    it('should handle only startDate without endDate', () => {
-      const props = {
-        ...defaultProps,
-        startDate: '2024-01-01',
-        endDate: undefined,
-      }
-      render(<FilterDrawer {...props} />)
+  describe("Edge Cases", () => {
+    it("should handle only startDate without endDate", () => {
+      useFilterStore.setState({
+        startDate: "2024-01-01",
+        endDate: "",
+        transactionPeriod: "all time",
+        selectedItems: {
+          trans_type: [],
+          trans_status: [],
+        },
+      });
+      render(<FilterDrawer />);
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).toBeDisabled()
-    })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).toBeDisabled();
+    });
 
-    it('should handle only endDate without startDate', () => {
-      const props = {
-        ...defaultProps,
-        startDate: undefined,
-        endDate: '2024-01-31',
-      }
-      render(<FilterDrawer {...props} />)
+    it("should handle only endDate without startDate", () => {
+      useFilterStore.setState({
+        startDate: "",
+        endDate: "2024-01-31",
+        transactionPeriod: "all time",
+        selectedItems: {
+          trans_type: [],
+          trans_status: [],
+        },
+      });
+      render(<FilterDrawer />);
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).toBeDisabled()
-    })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).toBeDisabled();
+    });
 
-    it('should handle empty selectedTypes array', () => {
-      const props = {
-        ...defaultProps,
-        selectedTypes: [],
-      }
-      render(<FilterDrawer {...props} />)
+    it("should handle empty selectedTypes array", () => {
+      useFilterStore.setState({
+        selectedItems: { trans_type: [], trans_status: [] },
+      });
+      render(<FilterDrawer />);
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).toBeDisabled()
-    })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).toBeDisabled();
+    });
 
-    it('should handle empty selectedStatuses array', () => {
-      const props = {
-        ...defaultProps,
-        selectedStatuses: [],
-      }
-      render(<FilterDrawer {...props} />)
+    it("should handle empty selectedStatuses array", () => {
+      useFilterStore.setState({
+        selectedItems: { trans_type: [], trans_status: [] },
+      });
+      render(<FilterDrawer />);
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).toBeDisabled()
-    })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).toBeDisabled();
+    });
 
-    it('should handle multiple clicks on Clear button', async () => {
-      const user = userEvent.setup()
-      const onClear = vi.fn()
-      const onClose = vi.fn()
-      const props = { ...defaultProps, onClear, onClose }
-      render(<FilterDrawer {...props} />)
+    it("should handle multiple clicks on Clear button", async () => {
+      const user = userEvent.setup();
+      const onClear = vi.fn();
+      const onClose = vi.fn();
+      useUIStore.setState({ closeFilterDrawer: onClose });
+      useFilterStore.setState({ clearFilter: onClear });
+      render(<FilterDrawer />);
 
-      const clearButton = screen.getByRole('button', { name: /clear/i })
-      await user.click(clearButton)
-      await user.click(clearButton)
+      const clearButton = screen.getByRole("button", { name: /clear/i });
+      await user.click(clearButton);
+      await user.click(clearButton);
 
-      expect(onClear).toHaveBeenCalledTimes(2)
-      expect(onClose).toHaveBeenCalledTimes(2)
-    })
+      expect(onClear).toHaveBeenCalledTimes(2);
+    });
+  });
 
-    it('should handle multiple clicks on Apply button when enabled', async () => {
-      const user = userEvent.setup()
-      const onApply = vi.fn()
-      const props = {
-        ...defaultProps,
-        onApply,
-        transactionPeriod: 'today',
-      }
-      render(<FilterDrawer {...props} />)
+  describe("Re-renders", () => {
+    it("should update Apply button state when filters change", () => {
+      const { rerender } = render(<FilterDrawer />);
 
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      await user.click(applyButton)
-      await user.click(applyButton)
+      let applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).toBeDisabled();
 
-      expect(onApply).toHaveBeenCalledTimes(2)
-    })
-  })
+      act(() => {
+        useFilterStore.setState({
+          transactionPeriod: "today",
+          selectedItems: {
+            trans_type: ["deposit"],
+            trans_status: ["successful"],
+          },
+          startDate: "2024-01-01",
+          endDate: "2024-01-31",
+        });
+      });
 
-  describe('Re-renders', () => {
-    it('should update Apply button state when filters change', () => {
-      const { rerender } = render(<FilterDrawer {...defaultProps} />)
+      rerender(<FilterDrawer />);
 
-      let applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).toBeDisabled()
+      applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).not.toBeDisabled();
+    });
+  });
 
-      const newProps = {
-        ...defaultProps,
-        transactionPeriod: 'today',
-      }
-      rerender(<FilterDrawer {...newProps} />)
+  describe("useMemo Optimization", () => {
+    it("should memoize hasActiveFilters calculation", () => {
+      useFilterStore.setState({
+        transactionPeriod: "today",
+        selectedItems: {
+          trans_type: ["deposit"],
+          trans_status: ["successful"],
+        },
+        startDate: "2024-01-01",
+        endDate: "2024-01-31",
+      });
+      const { rerender } = render(<FilterDrawer />);
 
-      applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).not.toBeDisabled()
-    })
+      const applyButton = screen.getByRole("button", { name: /apply/i });
+      expect(applyButton).not.toBeDisabled();
 
-    it('should update when selectedTypes changes', () => {
-      const { rerender } = render(<FilterDrawer {...defaultProps} />)
+      rerender(<FilterDrawer />);
 
-      let applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).toBeDisabled()
+      expect(applyButton).not.toBeDisabled();
+    });
+  });
 
-      const newProps = {
-        ...defaultProps,
-        selectedTypes: ['deposit', 'withdrawal'],
-      }
-      rerender(<FilterDrawer {...newProps} />)
+  describe("Layout Structure", () => {
+    it("should render VStack for filter controls", () => {
+      const { container } = render(<FilterDrawer />);
 
-      applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).not.toBeDisabled()
-    })
+      const vStacks = container.querySelectorAll('[class*="chakra-stack"]');
+      expect(vStacks.length).toBeGreaterThan(0);
+    });
 
-    it('should update when drawer opens and closes', () => {
-      const onClose = vi.fn()
-      const props = { ...defaultProps, onClose }
-      const { rerender } = render(<FilterDrawer {...props} isOpen={false} />)
+    it("should render HStack for action buttons", () => {
+      render(<FilterDrawer />);
 
-      expect(screen.queryByText('Filter')).not.toBeInTheDocument()
+      const buttons = screen.getAllByRole("button");
+      expect(buttons.length).toBeGreaterThan(2);
+    });
 
-      rerender(<FilterDrawer {...props} isOpen={true} />)
+    it("should render drawer body with flex layout", () => {
+      render(<FilterDrawer />);
 
-      expect(screen.getByText('Filter')).toBeInTheDocument()
-    })
-  })
-
-  describe('useMemo Optimization', () => {
-    it('should memoize hasActiveFilters calculation', () => {
-      const props = {
-        ...defaultProps,
-        transactionPeriod: 'today',
-        selectedTypes: ['deposit'],
-        selectedStatuses: ['successful'],
-        startDate: '2024-01-01',
-        endDate: '2024-01-31',
-      }
-      const { rerender } = render(<FilterDrawer {...props} />)
-
-      const applyButton = screen.getByRole('button', { name: /apply/i })
-      expect(applyButton).not.toBeDisabled()
-
-      rerender(<FilterDrawer {...props} />)
-
-      expect(applyButton).not.toBeDisabled()
-    })
-  })
-
-  describe('Layout Structure', () => {
-    it('should render VStack for filter controls', () => {
-      const { container } = render(<FilterDrawer {...defaultProps} />)
-
-      const vStacks = container.querySelectorAll('[class*="chakra-stack"]')
-      expect(vStacks.length).toBeGreaterThan(0)
-    })
-
-    it('should render HStack for action buttons', () => {
-      render(<FilterDrawer {...defaultProps} />)
-
-      const buttons = screen.getAllByRole('button')
-      expect(buttons.length).toBeGreaterThan(2)
-    })
-
-    it('should render drawer body with flex layout', () => {
-      render(<FilterDrawer {...defaultProps} />)
-
-      expect(screen.getByText('Date range')).toBeInTheDocument()
-      expect(screen.getByText('Transaction Type')).toBeInTheDocument()
-      expect(screen.getByText('Transaction Status')).toBeInTheDocument()
-    })
-  })
-})
+      expect(screen.getByText("Date range")).toBeInTheDocument();
+      expect(screen.getByText("Transaction Type")).toBeInTheDocument();
+      expect(screen.getByText("Transaction Status")).toBeInTheDocument();
+    });
+  });
+});

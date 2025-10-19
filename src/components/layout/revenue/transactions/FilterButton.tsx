@@ -3,17 +3,20 @@
 import { memo } from "react";
 import { Button, HStack, Text, Badge } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
-import type { FilterButtonProps } from "./types";
 import { Icons } from "@/constants/icons";
+import { useFilterStore } from "@/store/useFilterStore";
+import { useUIStore } from "@/store/useUIStore";
 
-const FilterButton = ({ onClick, filterCount = 0 }: FilterButtonProps) => {
+const FilterButton = () => {
+  const { filterCount } = useFilterStore();
+  const { openFilterDrawer } = useUIStore();
   const bgColor = useColorModeValue("#EFF1F6", "gray.700");
   const textColor = useColorModeValue("#131316", "white");
   const badgeBg = useColorModeValue("#131316", "gray.700");
 
   return (
     <Button
-      onClick={onClick}
+      onClick={openFilterDrawer}
       variant='outline'
       bg={bgColor}
       color={textColor}

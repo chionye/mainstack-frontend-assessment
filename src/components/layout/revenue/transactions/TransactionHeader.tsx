@@ -1,18 +1,11 @@
 /** @format */
 
 import { Flex, HStack, useBreakpointValue } from "@chakra-ui/react";
-import type { TransactionHeaderProps } from "./types";
 import FilterButton from "./FilterButton";
 import ExportButton from "./ExportButton";
 import TransactionCount from "./TransactionCount";
 
-const TransactionHeader = ({
-  count,
-  period,
-  onFilterApply,
-  onExport,
-  filterCount = 0,
-}: TransactionHeaderProps) => {
+const TransactionHeader = () => {
   const padding = useBreakpointValue({ base: 2, md: 0 });
 
   return (
@@ -26,11 +19,11 @@ const TransactionHeader = ({
       px={padding}
       flexDirection={{ base: "column", md: "row" }}
       gap={{ base: 4, md: 0 }}>
-      <TransactionCount count={count} period={period} />
+      <TransactionCount />
 
       <HStack gap={2}>
-        <FilterButton onClick={onFilterApply} filterCount={filterCount} />
-        <ExportButton onClick={onExport} />
+        <FilterButton />
+        <ExportButton />
       </HStack>
     </Flex>
   );

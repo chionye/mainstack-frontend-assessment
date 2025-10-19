@@ -2,17 +2,21 @@
 
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { Box, Heading, Text } from "@chakra-ui/react";
-import type { TransactionCountProps } from "./types";
+import { useFilterStore } from "@/store/useFilterStore";
 
-const TransactionCount = ({ count, period }: TransactionCountProps) => {
+const TransactionCount = () => {
+  const { filteredData, transactionPeriod } = useFilterStore();
   const headingColor = useColorModeValue("#131316", "white");
   const textColor = useColorModeValue("#56616B", "gray.400");
 
   const formatPeriodText = () => {
-    if (period === "this month" || period === "all time") {
-      return period;
+    if (
+      transactionPeriod === "this month" ||
+      transactionPeriod === "all time"
+    ) {
+      return transactionPeriod;
     }
-    return `${period}`;
+    return `${transactionPeriod}`;
   };
 
   return (
@@ -22,7 +26,7 @@ const TransactionCount = ({ count, period }: TransactionCountProps) => {
         fontSize='20px'
         fontWeight='semibold'
         color={headingColor}>
-        {count} Transactions
+        {filteredData.length} Transactions
       </Heading>
       <Text color={textColor} fontSize='14px' mt={1}>
         Your transactions for {formatPeriodText()}

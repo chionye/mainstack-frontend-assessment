@@ -2,20 +2,17 @@
 
 import { Box, HStack, Text } from "@chakra-ui/react";
 import DatePicker from "@/components/ui/date-picker";
-import type { DateRangeSelectorProps } from "./types";
 import { useColorModeValue } from "@/components/ui/color-mode";
+import { useFilterStore } from "@/store/useFilterStore";
 
-const DateRangeSelector = ({
-  label,
-  startDate,
-  endDate,
-  onStartDateChange,
-  onEndDateChange,
-}: DateRangeSelectorProps) => {
+const DateRangeSelector = ({ label = "Date range" }: { label?: string }) => {
+  const { startDate, endDate, setStartDate, setEndDate } = useFilterStore();
   const textColor = useColorModeValue("#131316", "white");
 
-  const startDateValue = startDate ? new Date(startDate) : undefined;
-  const endDateValue = endDate ? new Date(endDate) : undefined;
+  const startDateValue = startDate
+    ? new Date(startDate + "T00:00:00")
+    : undefined;
+  const endDateValue = endDate ? new Date(endDate + "T00:00:00") : undefined;
 
   return (
     <Box>
@@ -27,13 +24,13 @@ const DateRangeSelector = ({
           label='Start date'
           width='1/2'
           value={startDateValue}
-          onChange={onStartDateChange || (() => {})}
+          onChange={setStartDate}
         />
         <DatePicker
           label='End date'
           width='1/2'
           value={endDateValue}
-          onChange={onEndDateChange || (() => {})}
+          onChange={setEndDate}
         />
       </HStack>
     </Box>
