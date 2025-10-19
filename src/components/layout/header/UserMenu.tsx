@@ -11,14 +11,14 @@ import {
 } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { Link as RouterLink } from "react-router-dom";
-import { Icon } from "@iconify-icon/react";
 import { MenuItems, MenuIcon } from "@/utils/page-props";
 import { useUser } from "@/api/hooks/useUser";
 import { generateUserInitials } from "@/services/helpers";
 import IconButton from "./IconButton";
 import UserAvatar from "./UserAvatar";
 import type { MenuItem } from "./types";
-import type { Icons } from "@/constants/icons";
+import { Icons } from "@/constants/icons";
+import { Icon } from "@iconify-icon/react";
 
 const UserMenu = () => {
   const { data: user } = useUser();
@@ -54,7 +54,7 @@ const UserMenu = () => {
             <HStack gap={2}>
               <UserAvatar initials={userInitials} size='sm' />
               <Box w='28px' h='28px' display='flex' alignItems='center'>
-                <Icon icon='material-symbols-light:menu' width='20' height='20' />
+                <Icons.menu />
               </Box>
             </HStack>
           </Button>
