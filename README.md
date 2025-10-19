@@ -1,74 +1,110 @@
-# React + TypeScript + Vite
+<!-- @format -->
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Mainstack Frontend Developer Assessment
 
-Currently, two official plugins are available:
+This is a frontend assessment project built with React, TypeScript, Chakra-UI and Vite. The application demonstrates skills in modern frontend development, including state management, component architecture, and testing.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+- Modern React with TypeScript
+- State management with Zustand
+- Responsive UI with Chakra-UI
+- Unit testing with Vitest and React Testing Library
+- Type-safe API integration
+- Filtering and data visualization
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## 🛠️ Prerequisites
 
-## Expanding the ESLint configuration
+- Node.js (v16 or later)
+- npm or yarn
+- Git
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1. **Clone the repository**
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+   ```bash
+   git clone https://github.com/chionye/mainstack-assessment.git
+   cd mainstack-assessment
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Start the development server**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. **Open in browser**
+   The application will be available at [http://localhost:5173](http://localhost:5173)
+
+## 🧪 Running Tests
+
+Run the test suite with the following command:
+
+```bash
+npm test
+# or
+yarn test
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+For test coverage:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run test:coverage
+# or
+yarn test:coverage
 ```
-# mainstack-frontend-assessment
+
+For test ui:
+
+```bash
+npm run test:ui
+# or
+yarn test:ui
+```
+
+## 🏗️ Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── pages/         # Page components
+├── store/         # State management with Zustand
+├── services/      # Business logic
+├── types/         # TypeScript type definitions
+├── utils/         # Utility functions
+└── test/          # Test files
+```
+
+## 📦 Dependencies
+
+- React 18
+- TypeScript
+- Vite
+- Chakra-UI
+- Zustand
+- React Icons
+- date-fns
+- Vitest
+- React Testing Library
+
+## 📝 Notes
+
+- This is an assessment project for the Mainstack Frontend Developer position.
+- The application demonstrates modern React patterns and best practices.
+- All components are fully typed with TypeScript.
+- The codebase includes comprehensive test coverage.
+
+## 📄 License
+
+This project is proprietary and confidential. All rights reserved.

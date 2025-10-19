@@ -1,7 +1,7 @@
 /** @format */
 
 import { Link as RouterLink } from "react-router-dom";
-import { Link, HStack, VStack, Text, Box } from "@chakra-ui/react";
+import { Link, HStack, VStack, Text, Flex } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { Icon } from "@iconify-icon/react";
 import type { AppItem } from "./types";
@@ -27,9 +27,9 @@ const AppMenuItem = ({ title, subtitle, link, image }: AppItem) => {
       tabIndex={-1}>
       <RouterLink to={link} tabIndex={0}>
         <HStack gap={3} w='full' align='flex-start'>
-          <Box p={3} borderRadius='md' boxShadow='md'>
+          <Flex w={"48px"} h={"48px"} justifyContent='center' alignItems='center' borderRadius='xl' borderColor="#EFF1F6" borderWidth="1px">
             <IconComponent icon={image} />
-          </Box>
+          </Flex>
 
           <HStack justify='space-between' align='center' w='full' mt={1}>
             <VStack align='flex-start' gap={2}>

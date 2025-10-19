@@ -1,14 +1,13 @@
 /** @format */
 
 import { describe, it, expect, beforeEach } from 'vitest'
-import { filterData } from './filter'
-import type { Transaction } from '@/api/types'
+import { filterData } from '../../services/filter'
+import type { Transaction } from '../../api/types'
 
 describe('filterData', () => {
   let mockTransactions: Transaction[]
 
   beforeEach(() => {
-    // Create mock transactions for testing
     const today = new Date()
     const yesterday = new Date(today)
     yesterday.setDate(today.getDate() - 1)
@@ -22,11 +21,12 @@ describe('filterData', () => {
     mockTransactions = [
       {
         amount: 5000,
+        metadata_id: 'meta1',
         metadata: {
           name: 'Test User 1',
           type: 'deposit',
           email: 'user1@test.com',
-          quantity: 1,
+          quantity: '1',
           country: 'Nigeria',
           product_name: 'Product A',
         },
@@ -37,11 +37,12 @@ describe('filterData', () => {
       },
       {
         amount: 3000,
+        metadata_id: 'meta2',
         metadata: {
           name: 'Test User 2',
           type: 'withdrawal',
           email: 'user2@test.com',
-          quantity: 1,
+          quantity: '1',
           country: 'Nigeria',
           product_name: 'Product B',
         },
@@ -52,11 +53,12 @@ describe('filterData', () => {
       },
       {
         amount: 2000,
+        metadata_id: 'meta3',
         metadata: {
           name: 'Test User 3',
           type: 'deposit',
           email: 'user3@test.com',
-          quantity: 1,
+          quantity: '1',
           country: 'Nigeria',
           product_name: 'Product C',
         },
@@ -67,11 +69,12 @@ describe('filterData', () => {
       },
       {
         amount: 1000,
+        metadata_id: 'meta4',
         metadata: {
           name: 'Test User 4',
           type: 'withdrawal',
           email: 'user4@test.com',
-          quantity: 1,
+          quantity: '1',
           country: 'Nigeria',
           product_name: 'Product D',
         },
@@ -92,7 +95,6 @@ describe('filterData', () => {
     it('should filter by "today"', () => {
       const result = filterData(mockTransactions, 'today')
       expect(result.length).toBeGreaterThanOrEqual(1)
-      // Should include today's transaction
       const today = new Date()
       result.forEach((t) => {
         const tDate = new Date(t.date)

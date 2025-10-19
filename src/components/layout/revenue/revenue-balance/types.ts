@@ -45,3 +45,9 @@ export interface StatItemProps {
   showInfo?: boolean;
   fontSize?: string;
 }
+
+export interface ErrorStateProps {
+  handleRetry: () => void;
+  walletError: Error | null;
+  transactionsError: Error | null;
+}

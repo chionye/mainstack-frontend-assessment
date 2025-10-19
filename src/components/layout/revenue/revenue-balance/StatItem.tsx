@@ -20,7 +20,6 @@ const StatItem = ({
 
   return (
     <Box>
-      {/* Label with Info Icon */}
       <Flex justify='space-between' align='center'>
         <Text color={labelColor} fontSize='14px'>
           {label}
@@ -28,7 +27,6 @@ const StatItem = ({
         {showInfo && <Icons.info />}
       </Flex>
 
-      {/* Amount */}
       <Text
         fontSize={fontSize}
         fontWeight='bold'

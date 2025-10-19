@@ -17,7 +17,7 @@ const FloatingSidebar = () => {
     <Box
       position='fixed'
       left={{ base: "auto", md: "20px" }}
-      right={{ base: "20px", md: "auto" }}
+      right={{ base: "auto", md: "auto" }}
       top='300px'
       zIndex={50}
       bg={bgColor}

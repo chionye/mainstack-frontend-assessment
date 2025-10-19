@@ -1,6 +1,6 @@
 /** @format */
 
-import MultiSelectCheckbox from "./MultiSelectCheckbox";
+import MultiSelectCheckbox from "../../../shared/MultiSelectCheckbox";
 import { selectTransactionStatusItems } from "@/constants/data";
 import type { TransactionStatusSelectorProps } from "./types";
 

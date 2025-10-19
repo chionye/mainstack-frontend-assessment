@@ -4,11 +4,7 @@ import { memo } from "react";
 import IconComponent from "@/components/shared/IconComponent";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { Center } from "@chakra-ui/react";
-
-interface TransactionIconProps {
-  type: "deposit" | "withdrawal";
-  size?: string;
-}
+import type { TransactionIconProps } from "./types";
 
 const TransactionIcon = ({ type, size = "48px" }: TransactionIconProps) => {
   const isDeposit = type === "deposit";

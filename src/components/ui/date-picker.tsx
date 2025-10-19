@@ -116,11 +116,12 @@ const DatePicker = ({
 
       <Popover.Positioner>
         <Popover.Content
-          w='390px'
+          w={{ base: "calc(100vw - 32px)", sm: "390px" }}
+          maxW='390px'
           border='none'
           boxShadow='lg'
           borderRadius='xl'>
-          <Popover.Body p={4}>
+          <Popover.Body p={{ base: 3, sm: 4 }}>
             <VStack gap={4}>
               {/* Month/Year Navigation */}
               <HStack justify='space-between' w='full'>
@@ -217,8 +218,8 @@ const DatePicker = ({
                           <Button
                             onClick={() => handleDateSelect(day)}
                             size='sm'
-                            w='40px'
-                            h='40px'
+                            w={{ base: "36px", sm: "40px" }}
+                            h={{ base: "36px", sm: "40px" }}
                             bg={isSelected ? selectedBg : "transparent"}
                             color={
                               isSelected
@@ -228,6 +229,7 @@ const DatePicker = ({
                                 : outsideMonthColor
                             }
                             fontWeight={isSelected ? "600" : "normal"}
+                            fontSize={{ base: "12px", sm: "14px" }}
                             borderRadius='md'
                             _hover={{
                               bg: isSelected ? selectedBg : hoverBg,

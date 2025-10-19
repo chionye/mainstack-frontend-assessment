@@ -51,7 +51,6 @@ const Revenue = () => {
     clearFilter,
   } = useFilterStore();
 
-  // Update store when transactions data changes
   useEffect(() => {
     setTransactions(transactions);
   }, [transactions, setTransactions]);
@@ -72,7 +71,6 @@ const Revenue = () => {
 
   const handleExport = useCallback(() => {
     console.log("Export transactions");
-    // Implement export logic
   }, []);
 
   const handleRetry = useCallback(() => {
@@ -85,7 +83,6 @@ const Revenue = () => {
     onClose();
   }, [applyFilter, onClose]);
 
-  // Loading state
   if (walletLoading || transactionsLoading) {
     return (
       <Flex justify='center' align='center' height='100vh'>
@@ -94,7 +91,6 @@ const Revenue = () => {
     );
   }
 
-  // Error state
   if (walletError || transactionsError) {
     return (
       <Flex justify='center' align='center' minH='100vh' px={4}>

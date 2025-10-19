@@ -3,11 +3,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useWallet } from './useWallet'
-import { API } from '../client'
+import { useWallet } from '../../../api/hooks/useWallet'
+import { API } from '../../../api/client'
 
-// Mock the API client
-vi.mock('../client', () => ({
+vi.mock('../../../api/client', () => ({
   API: {
     get: vi.fn(),
   },
@@ -17,16 +16,14 @@ describe('useWallet', () => {
   let queryClient: QueryClient
 
   beforeEach(() => {
-    // Create a new QueryClient for each test
     queryClient = new QueryClient({
       defaultOptions: {
         queries: {
-          retry: false, // Disable retries for testing
+          retry: false,
         },
       },
     })
 
-    // Reset all mocks
     vi.clearAllMocks()
   })
 
@@ -87,7 +84,6 @@ describe('useWallet', () => {
       expect(result.current.isSuccess).toBe(true)
     })
 
-    // Query should be fresh for 5 minutes
     expect(result.current.isStale).toBe(false)
   })
 })

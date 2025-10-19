@@ -1,9 +1,9 @@
 /** @format */
 
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '../../test/test-utils'
+import { render, screen } from '../../test-utils'
 import userEvent from '@testing-library/user-event'
-import CustomButton from './Button'
+import CustomButton from '../../../components/shared/Button'
 
 describe('CustomButton', () => {
   it('should render with children', () => {

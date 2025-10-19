@@ -55,8 +55,13 @@ const Chart = ({ data }: { data: Transaction[] }) => {
   };
 
   return (
-    <Box>
-      <LineChart width={chartWidth} height={257} data={chartData}>
+    <Box overflow='visible' px={2}>
+      <LineChart
+        width={chartWidth}
+        height={257}
+        data={chartData}
+        margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
+      >
         <Line
           type='monotone'
           dataKey='amount'
@@ -72,6 +77,8 @@ const Chart = ({ data }: { data: Transaction[] }) => {
           tickFormatter={formatXAxis}
           style={{ fontSize: "12px" }}
           domain={["dataMin", "dataMax"]}
+          tickMargin={8}
+          interval='preserveStartEnd'
         />
         <YAxis hide />
         {chartData.length > 0 && (

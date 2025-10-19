@@ -1,5 +1,7 @@
+/** @format */
+
 import { selectTransactionTypeItems } from "@/constants/data";
-import MultiSelectCheckbox from "./MultiSelectCheckbox";
+import MultiSelectCheckbox from "../../../shared/MultiSelectCheckbox";
 import type { TransactionTypeSelectorProps } from "./types";
 
 const TransactionTypeSelector = ({
@@ -10,7 +12,7 @@ const TransactionTypeSelector = ({
 }: TransactionTypeSelectorProps) => {
   return (
     <MultiSelectCheckbox
-      label="Transaction Type"
+      label='Transaction Type'
       items={selectTransactionTypeItems}
       selectedItems={selectedItems}
       onToggle={onToggle}

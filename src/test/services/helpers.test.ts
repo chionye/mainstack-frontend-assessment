@@ -1,7 +1,7 @@
 /** @format */
 
 import { describe, it, expect } from 'vitest'
-import { generateUserInitials, formatAmount, generatePascalCase, sentenceCase } from './helpers'
+import { generateUserInitials, formatAmount, generatePascalCase, sentenceCase } from '../../services/helpers'
 
 describe('generateUserInitials', () => {
   it('should return initials for a full name', () => {
@@ -86,7 +86,6 @@ describe('generatePascalCase', () => {
   })
 
   it('should handle multiple underscores', () => {
-    // Function filters out empty strings from double underscores
     expect(generatePascalCase('hello__world')).toBe('Hello World')
   })
 

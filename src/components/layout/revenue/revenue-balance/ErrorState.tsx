@@ -2,10 +2,14 @@
 
 import { VStack, Heading, Text, Button, Box } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
-import type { EmptyStateProps } from "./types";
+import type { ErrorStateProps } from "./types";
 import { Icons } from "@/constants/icons";
 
-const EmptyState = ({ onClearFilter }: EmptyStateProps) => {
+const ErrorState = ({
+  handleRetry,
+  walletError,
+  transactionsError,
+}: ErrorStateProps) => {
   const headingColor = useColorModeValue("#131316", "white");
   const textColor = useColorModeValue("#56616B", "gray.400");
   const badgeBg = useColorModeValue("#DBDEE5", "gray.700");
@@ -31,16 +35,17 @@ const EmptyState = ({ onClearFilter }: EmptyStateProps) => {
           fontWeight='bold'
           lineHeight='40px'
           color={headingColor}>
-          No matching transaction found for the selected filter
+          Failed to load revenue data
         </Heading>
 
         <Text color={textColor} fontSize='16px'>
-          Change your filters to see more results, or add a new product.
+          {(walletError as Error)?.message ||
+            (transactionsError as Error)?.message ||
+            "An error occurred while fetching your revenue information"}
         </Text>
-
         <Button
           variant='outline'
-          onClick={onClearFilter}
+          onClick={handleRetry}
           py={3}
           px={6}
           border='none'
@@ -49,11 +54,11 @@ const EmptyState = ({ onClearFilter }: EmptyStateProps) => {
           borderRadius='full'
           mt={4}
           _hover={{ boxShadow: "none" }}>
-          Clear Filter
+          Retry
         </Button>
       </Box>
     </VStack>
   );
 };
 
-export default EmptyState;
+export default ErrorState;

@@ -1,29 +1,9 @@
 /** @format */
 
-import {
-  VStack,
-  Text,
-  Menu,
-  Button,
-  Checkbox,
-  HStack,
-} from "@chakra-ui/react";
+import { VStack, Text, Menu, Button, Checkbox, HStack } from "@chakra-ui/react";
 import { Icon } from "@iconify-icon/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
-
-interface MultiSelectItem {
-  id: string;
-  label: string;
-}
-
-interface MultiSelectCheckboxProps {
-  label: string;
-  items?: MultiSelectItem[];
-  selectedItems?: string[];
-  onToggle: (label: string) => void;
-  isOpen: boolean;
-  onOpenChange: () => void;
-}
+import type { MultiSelectCheckboxProps } from "./types";
 
 const MultiSelectCheckbox = ({
   label,
@@ -72,7 +52,11 @@ const MultiSelectCheckbox = ({
             _hover={{ bg: bgColor }}
             _active={{ bg: bgColor }}
             px={4}>
-            <Text truncate fontSize='14px' fontWeight='medium' color={textColor}>
+            <Text
+              truncate
+              fontSize='14px'
+              fontWeight='medium'
+              color={textColor}>
               {displayValue}
             </Text>
             <Icon

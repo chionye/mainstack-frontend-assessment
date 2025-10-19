@@ -2,9 +2,9 @@
 
 import { memo } from "react";
 import { Button, HStack, Text, Badge } from "@chakra-ui/react";
-import { Icon } from "@iconify-icon/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import type { FilterButtonProps } from "./types";
+import { Icons } from "@/constants/icons";
 
 const FilterButton = ({ onClick, filterCount = 0 }: FilterButtonProps) => {
   const bgColor = useColorModeValue("#EFF1F6", "gray.700");
@@ -43,7 +43,7 @@ const FilterButton = ({ onClick, filterCount = 0 }: FilterButtonProps) => {
             {filterCount}
           </Badge>
         )}
-        <Icon icon='ph:caret-down-bold' width='10' height='10' />
+        <Icons.chevronDown />
       </HStack>
     </Button>
   );

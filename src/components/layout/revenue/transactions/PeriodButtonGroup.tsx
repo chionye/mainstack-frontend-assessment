@@ -22,7 +22,11 @@ const PeriodButtonGroup = ({
   );
 
   return (
-    <HStack justify='space-evenly' align='center'>
+    <HStack
+      justify='space-evenly'
+      align='center'
+      flexWrap={{ base: "wrap", lg: "nowrap" }}
+      gap={{ base: 2, md: 3 }}>
       {filterButtonItems.map((item) => {
         const isSelected = selectedPeriod === item.label.toLowerCase();
         return (

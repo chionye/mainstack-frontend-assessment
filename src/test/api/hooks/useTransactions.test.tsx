@@ -3,12 +3,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useTransactions } from './useTransactions'
-import { API } from '../client'
-import type { Transaction } from '../types'
+import { useTransactions } from '../../../api/hooks/useTransactions'
+import { API } from '../../../api/client'
+import type { Transaction } from '../../../api/types'
 
 // Mock the API client
-vi.mock('../client', () => ({
+vi.mock('../../../api/client', () => ({
   API: {
     get: vi.fn(),
   },
@@ -18,16 +18,13 @@ describe('useTransactions', () => {
   let queryClient: QueryClient
 
   beforeEach(() => {
-    // Create a new QueryClient for each test
     queryClient = new QueryClient({
       defaultOptions: {
         queries: {
-          retry: false, // Disable retries for testing
+          retry: false,
         },
       },
     })
-
-    // Reset all mocks
     vi.clearAllMocks()
   })
 
@@ -38,11 +35,12 @@ describe('useTransactions', () => {
   const mockTransactions: Transaction[] = [
     {
       amount: 5000,
+      metadata_id: 'meta1',
       metadata: {
         name: 'Test User 1',
         type: 'deposit',
         email: 'user1@test.com',
-        quantity: 1,
+        quantity: '1',
         country: 'Nigeria',
         product_name: 'Product A',
       },
@@ -53,11 +51,12 @@ describe('useTransactions', () => {
     },
     {
       amount: 3000,
+      metadata_id: 'meta2',
       metadata: {
         name: 'Test User 2',
         type: 'withdrawal',
         email: 'user2@test.com',
-        quantity: 1,
+        quantity: '1',
         country: 'Nigeria',
         product_name: 'Product B',
       },
@@ -115,7 +114,6 @@ describe('useTransactions', () => {
       expect(result.current.isSuccess).toBe(true)
     })
 
-    // Query should be fresh for 5 minutes
     expect(result.current.isStale).toBe(false)
   })
 

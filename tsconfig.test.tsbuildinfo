@@ -1,0 +1,14 @@
+{
+  "root": [
+    "./src/test/services/filter.test.ts",
+    "./src/test/services/helpers.test.ts",
+    "./src/test/store/usefilterstore.test.ts",
+    "./src/test/api/hooks/usetransactions.test.tsx",
+    "./src/test/api/hooks/usewallet.test.tsx",
+    "./src/test/components/shared/button.test.tsx",
+    "./src/test/setup.ts",
+    "./src/test/test-utils.tsx"
+  ],
+  "errors": true,
+  "version": "5.9.3"
+}

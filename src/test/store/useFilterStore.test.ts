@@ -1,14 +1,13 @@
 /** @format */
 
 import { describe, it, expect, beforeEach } from 'vitest'
-import { useFilterStore } from './useFilterStore'
-import type { Transaction } from '@/api/types'
+import { useFilterStore } from '../../store/useFilterStore'
+import type { Transaction } from '../../api/types'
 
 describe('useFilterStore', () => {
   let mockTransactions: Transaction[]
 
   beforeEach(() => {
-    // Reset store before each test
     useFilterStore.setState({
       selectedItems: {
         trans_type: [],
@@ -23,16 +22,16 @@ describe('useFilterStore', () => {
       filterCount: 0,
     })
 
-    // Create mock transactions
     const today = new Date()
     mockTransactions = [
       {
         amount: 5000,
+        metadata_id: 'meta1',
         metadata: {
           name: 'Test User 1',
           type: 'deposit',
           email: 'user1@test.com',
-          quantity: 1,
+          quantity: '1',
           country: 'Nigeria',
           product_name: 'Product A',
         },
@@ -43,11 +42,12 @@ describe('useFilterStore', () => {
       },
       {
         amount: 3000,
+        metadata_id: 'meta2',
         metadata: {
           name: 'Test User 2',
           type: 'withdrawal',
           email: 'user2@test.com',
-          quantity: 1,
+          quantity: '1',
           country: 'Nigeria',
           product_name: 'Product B',
         },
@@ -80,20 +80,16 @@ describe('useFilterStore', () => {
     })
 
     it('should re-apply filter when filter is active and transactions change', () => {
-      // Set initial transactions
       useFilterStore.getState().setTransactions(mockTransactions)
 
-      // Apply a filter
       useFilterStore.getState().setTransactionPeriod('today')
       useFilterStore.getState().applyFilter()
 
       expect(useFilterStore.getState().hasAppliedFilter).toBe(true)
 
-      // Set new transactions
       const newTransactions = [...mockTransactions]
       useFilterStore.getState().setTransactions(newTransactions)
 
-      // Filter should be re-applied
       expect(useFilterStore.getState().hasAppliedFilter).toBe(true)
     })
   })

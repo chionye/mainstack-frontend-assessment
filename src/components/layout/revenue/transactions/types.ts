@@ -98,3 +98,8 @@ export interface FilterButtonProps {
   onClick: () => void;
   filterCount?: number;
 }
+
+export interface TransactionIconProps {
+  type: "deposit" | "withdrawal";
+  size?: string;
+}
