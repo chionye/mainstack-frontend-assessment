@@ -45,16 +45,16 @@ const FloatingSidebar = () => {
                 _hover={{
                   bg: hoverBg,
                   textDecoration: "none",
+                  "& > span": {
+                    filter: "grayscale(0%)",
+                  },
                 }}
                 role='group'>
                 <Box
                   as='span'
                   display='inline-block'
                   transition='filter 0.2s'
-                  filter='grayscale(100%)'
-                  _groupHover={{
-                    filter: "grayscale(0%)",
-                  }}>
+                  filter='grayscale(100%)'>
                   <IconComponent icon={item.image} />
                 </Box>
               </Link> 
