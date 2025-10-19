@@ -1,226 +1,239 @@
 /** @format */
 
-import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '../../../../test-utils'
-import userEvent from '@testing-library/user-event'
-import EmptyState from '../../../../../components/layout/revenue/transactions/EmptyState'
+import React from "react";
+import { describe, it, expect, vi } from "vitest";
+import { render, screen } from "../../../../test-utils";
+import userEvent from "@testing-library/user-event";
+import EmptyState from "../../../../../components/layout/revenue/transactions/EmptyState";
 
-describe('EmptyState', () => {
-  describe('Rendering', () => {
-    it('should render empty state message', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
-
-      expect(
-        screen.getByText(/No matching transaction found for the selected filter/i)
-      ).toBeInTheDocument()
-    })
-
-    it('should render description text', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
+describe("EmptyState", () => {
+  describe("Rendering", () => {
+    it("should render empty state message", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
       expect(
-        screen.getByText(/Change your filters to see more results, or add a new product/i)
-      ).toBeInTheDocument()
-    })
+        screen.getByText(
+          /No matching transaction found for the selected filter/i
+        )
+      ).toBeInTheDocument();
+    });
 
-    it('should render clear filter button', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
+    it("should render description text", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
-      expect(screen.getByRole('button', { name: /clear filter/i })).toBeInTheDocument()
-    })
+      expect(
+        screen.getByText(
+          /Change your filters to see more results, or add a new product/i
+        )
+      ).toBeInTheDocument();
+    });
 
-    it.skip('should render receipt image', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
+    it("should render clear filter button", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
-      const image = screen.getByAltText('No transactions')
-      expect(image).toBeInTheDocument()
-    })
-  })
+      expect(
+        screen.getByRole("button", { name: /clear filter/i })
+      ).toBeInTheDocument();
+    });
 
-  describe('Clear Filter Button', () => {
-    it('should call onClearFilter when button is clicked', async () => {
-      const handleClearFilter = vi.fn()
-      const user = userEvent.setup()
+    it.skip("should render receipt image", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
-      render(<EmptyState onClearFilter={handleClearFilter} />)
+      const image = screen.getByAltText("No transactions");
+      expect(image).toBeInTheDocument();
+    });
+  });
 
-      const clearButton = screen.getByRole('button', { name: /clear filter/i })
-      await user.click(clearButton)
+  describe("Clear Filter Button", () => {
+    it("should call onClearFilter when button is clicked", async () => {
+      const handleClearFilter = vi.fn();
+      const user = userEvent.setup();
 
-      expect(handleClearFilter).toHaveBeenCalledTimes(1)
-    })
+      render(<EmptyState onClearFilter={handleClearFilter} />);
 
-    it('should call onClearFilter multiple times if clicked multiple times', async () => {
-      const handleClearFilter = vi.fn()
-      const user = userEvent.setup()
+      const clearButton = screen.getByRole("button", { name: /clear filter/i });
+      await user.click(clearButton);
 
-      render(<EmptyState onClearFilter={handleClearFilter} />)
+      expect(handleClearFilter).toHaveBeenCalledTimes(1);
+    });
 
-      const clearButton = screen.getByRole('button', { name: /clear filter/i })
+    it("should call onClearFilter multiple times if clicked multiple times", async () => {
+      const handleClearFilter = vi.fn();
+      const user = userEvent.setup();
 
-      await user.click(clearButton)
-      await user.click(clearButton)
-      await user.click(clearButton)
+      render(<EmptyState onClearFilter={handleClearFilter} />);
 
-      expect(handleClearFilter).toHaveBeenCalledTimes(3)
-    })
+      const clearButton = screen.getByRole("button", { name: /clear filter/i });
 
-    it('should have outline variant styling', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
+      await user.click(clearButton);
+      await user.click(clearButton);
+      await user.click(clearButton);
 
-      const clearButton = screen.getByRole('button', { name: /clear filter/i })
-      expect(clearButton).toBeInTheDocument()
-    })
+      expect(handleClearFilter).toHaveBeenCalledTimes(3);
+    });
 
-    it('should have rounded full border radius', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
+    it("should have outline variant styling", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
-      const clearButton = screen.getByRole('button', { name: /clear filter/i })
-      expect(clearButton).toHaveStyle({ borderRadius: 'var(--chakra-radii-full)' })
-    })
-  })
+      const clearButton = screen.getByRole("button", { name: /clear filter/i });
+      expect(clearButton).toBeInTheDocument();
+    });
 
-  describe('Component Structure', () => {
-    it('should render with proper layout structure', () => {
-      const { container } = render(<EmptyState onClearFilter={() => {}} />)
+    it("should have rounded full border radius", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
-      const vStack = container.querySelector('[class*="chakra-stack"]')
-      expect(vStack).toBeInTheDocument()
-    })
+      const clearButton = screen.getByRole("button", { name: /clear filter/i });
+      expect(clearButton).toHaveStyle({
+        borderRadius: "var(--chakra-radii-full)",
+      });
+    });
+  });
 
-    it('should render all elements in correct order', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
+  describe("Component Structure", () => {
+    it("should render with proper layout structure", () => {
+      const { container } = render(<EmptyState onClearFilter={() => {}} />);
 
-      const heading = screen.getByText(/No matching transaction found/i)
-      const description = screen.getByText(/Change your filters/i)
-      const button = screen.getByRole('button', { name: /clear filter/i })
+      const vStack = container.querySelector('[class*="chakra-stack"]');
+      expect(vStack).toBeInTheDocument();
+    });
 
-      expect(heading).toBeInTheDocument()
-      expect(description).toBeInTheDocument()
-      expect(button).toBeInTheDocument()
-    })
-  })
+    it("should render all elements in correct order", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
-  describe('Typography', () => {
-    it('should render heading with correct text', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
+      const heading = screen.getByText(/No matching transaction found/i);
+      const description = screen.getByText(/Change your filters/i);
+      const button = screen.getByRole("button", { name: /clear filter/i });
 
-      const heading = screen.getByText(/No matching transaction found for the selected filter/i)
-      expect(heading.tagName).toBe('H2')
-    })
+      expect(heading).toBeInTheDocument();
+      expect(description).toBeInTheDocument();
+      expect(button).toBeInTheDocument();
+    });
+  });
 
-    it('should render heading as h2 element', () => {
-      const { container } = render(<EmptyState onClearFilter={() => {}} />)
+  describe("Typography", () => {
+    it("should render heading with correct text", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
-      const h2 = container.querySelector('h2')
-      expect(h2).toBeInTheDocument()
+      const heading = screen.getByText(
+        /No matching transaction found for the selected filter/i
+      );
+      expect(heading.tagName).toBe("H2");
+    });
+
+    it("should render heading as h2 element", () => {
+      const { container } = render(<EmptyState onClearFilter={() => {}} />);
+
+      const h2 = container.querySelector("h2");
+      expect(h2).toBeInTheDocument();
       expect(h2?.textContent).toBe(
-        'No matching transaction found for the selected filter'
-      )
-    })
+        "No matching transaction found for the selected filter"
+      );
+    });
 
-    it('should render description text correctly', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
+    it("should render description text correctly", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
       const description = screen.getByText(
         /Change your filters to see more results, or add a new product/i
-      )
-      expect(description).toBeInTheDocument()
-    })
-  })
+      );
+      expect(description).toBeInTheDocument();
+    });
+  });
 
-  describe('Image Display', () => {
-    it.skip('should render receipt icon image', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
+  describe("Image Display", () => {
+    it.skip("should render receipt icon image", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
-      const image = screen.getByAltText('No transactions')
-      expect(image).toHaveAttribute('src')
-    })
+      const image = screen.getByAltText("No transactions");
+      expect(image).toHaveAttribute("src");
+    });
 
-    it.skip('should have proper alt text for accessibility', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
+    it.skip("should have proper alt text for accessibility", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
-      const image = screen.getByAltText('No transactions')
-      expect(image).toHaveAttribute('alt', 'No transactions')
-    })
+      const image = screen.getByAltText("No transactions");
+      expect(image).toHaveAttribute("alt", "No transactions");
+    });
 
-    it.skip('should render image inside badge container', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
+    it.skip("should render image inside badge container", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
-      const image = screen.getByAltText('No transactions')
-      expect(image.parentElement).toBeInTheDocument()
-    })
-  })
+      const image = screen.getByAltText("No transactions");
+      expect(image.parentElement).toBeInTheDocument();
+    });
+  });
 
-  describe('User Interaction', () => {
-    it('should be keyboard accessible', async () => {
-      const handleClearFilter = vi.fn()
-      const user = userEvent.setup()
+  describe("User Interaction", () => {
+    it("should be keyboard accessible", async () => {
+      const handleClearFilter = vi.fn();
+      const user = userEvent.setup();
 
-      render(<EmptyState onClearFilter={handleClearFilter} />)
+      render(<EmptyState onClearFilter={handleClearFilter} />);
 
-      await user.tab()
-      await user.keyboard('{Enter}')
+      await user.tab();
+      await user.keyboard("{Enter}");
 
-      expect(handleClearFilter).toHaveBeenCalled()
-    })
+      expect(handleClearFilter).toHaveBeenCalled();
+    });
 
-    it('should handle space key press', async () => {
-      const handleClearFilter = vi.fn()
-      const user = userEvent.setup()
+    it("should handle space key press", async () => {
+      const handleClearFilter = vi.fn();
+      const user = userEvent.setup();
 
-      render(<EmptyState onClearFilter={() => handleClearFilter()} />)
+      render(<EmptyState onClearFilter={() => handleClearFilter()} />);
 
-      const clearButton = screen.getByRole('button', { name: /clear filter/i })
-      clearButton.focus()
+      const clearButton = screen.getByRole("button", { name: /clear filter/i });
+      clearButton.focus();
 
-      await user.keyboard(' ')
+      await user.keyboard(" ");
 
-      expect(handleClearFilter).toHaveBeenCalled()
-    })
-  })
+      expect(handleClearFilter).toHaveBeenCalled();
+    });
+  });
 
-  describe('Edge Cases', () => {
-    it('should render without crashing when onClearFilter is undefined', () => {
-      render(<EmptyState onClearFilter={undefined as any} />)
+  describe("Edge Cases", () => {
+    it("should render without crashing when onClearFilter is undefined", () => {
+      render(<EmptyState onClearFilter={undefined as any} />);
 
-      expect(screen.getByRole('button', { name: /clear filter/i })).toBeInTheDocument()
-    })
+      expect(
+        screen.getByRole("button", { name: /clear filter/i })
+      ).toBeInTheDocument();
+    });
 
-    it('should handle rapid button clicks', async () => {
-      const handleClearFilter = vi.fn()
-      const user = userEvent.setup()
+    it("should handle rapid button clicks", async () => {
+      const handleClearFilter = vi.fn();
+      const user = userEvent.setup();
 
-      render(<EmptyState onClearFilter={handleClearFilter} />)
+      render(<EmptyState onClearFilter={handleClearFilter} />);
 
-      const clearButton = screen.getByRole('button', { name: /clear filter/i })
+      const clearButton = screen.getByRole("button", { name: /clear filter/i });
 
-      await user.tripleClick(clearButton)
+      await user.tripleClick(clearButton);
 
-      expect(handleClearFilter).toHaveBeenCalledTimes(3)
-    })
-  })
+      expect(handleClearFilter).toHaveBeenCalledTimes(3);
+    });
+  });
 
-  describe('Accessibility', () => {
-    it('should have accessible button with proper text', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
+  describe("Accessibility", () => {
+    it("should have accessible button with proper text", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
-      const button = screen.getByRole('button', { name: /clear filter/i })
-      expect(button).toBeInTheDocument()
-    })
+      const button = screen.getByRole("button", { name: /clear filter/i });
+      expect(button).toBeInTheDocument();
+    });
 
-    it.skip('should have accessible image with alt text', () => {
-      render(<EmptyState onClearFilter={() => {}} />)
+    it.skip("should have accessible image with alt text", () => {
+      render(<EmptyState onClearFilter={() => {}} />);
 
-      const image = screen.getByAltText('No transactions')
-      expect(image).toBeInTheDocument()
-    })
+      const image = screen.getByAltText("No transactions");
+      expect(image).toBeInTheDocument();
+    });
 
-    it('should have proper heading hierarchy', () => {
-      const { container } = render(<EmptyState onClearFilter={() => {}} />)
+    it("should have proper heading hierarchy", () => {
+      const { container } = render(<EmptyState onClearFilter={() => {}} />);
 
-      const h2 = container.querySelector('h2')
-      expect(h2).toBeInTheDocument()
-    })
-  })
-})
+      const h2 = container.querySelector("h2");
+      expect(h2).toBeInTheDocument();
+    });
+  });
+});

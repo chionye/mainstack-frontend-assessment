@@ -3,15 +3,16 @@
 import { Button, HStack, Text } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { Icons } from "@/constants/icons";
-import type { ExportButtonProps } from "./types";
+import { useActionsStore } from "@/store/useActionsStore";
 
-const ExportButton = ({ onClick }: ExportButtonProps) => {
+const ExportButton = () => {
+  const { handleExport } = useActionsStore();
   const bgColor = useColorModeValue("#EFF1F6", "gray.700");
   const textColor = useColorModeValue("#131316", "white");
 
   return (
     <Button
-      onClick={onClick}
+      onClick={handleExport}
       variant='outline'
       bg={bgColor}
       color={textColor}

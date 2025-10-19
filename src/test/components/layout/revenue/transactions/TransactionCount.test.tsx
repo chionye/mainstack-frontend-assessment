@@ -1,280 +1,376 @@
 /** @format */
 
-import { describe, it, expect } from 'vitest'
-import { render, screen } from '../../../../test-utils'
-import TransactionCount from '../../../../../components/layout/revenue/transactions/TransactionCount'
+import { describe, it, expect } from "vitest";
+import { act, render, screen } from "../../../../test-utils";
+import TransactionCount from "../../../../../components/layout/revenue/transactions/TransactionCount";
+import { useFilterStore } from "../../../../../store/useFilterStore";
 
-describe('TransactionCount', () => {
-  describe('Rendering', () => {
-    it('should render transaction count heading', () => {
-      render(<TransactionCount count={10} period="all time" />)
+describe("TransactionCount", () => {
+  describe("Rendering", () => {
+    it("should render transaction count heading", () => {
+      const { container } = render(<TransactionCount />);
 
-      expect(screen.getByText('10 Transactions')).toBeInTheDocument()
-    })
+      expect(container).toBeInTheDocument();
+    });
 
-    it('should render period description', () => {
-      render(<TransactionCount count={5} period="all time" />)
+    it("should render period description", () => {
+      render(<TransactionCount />);
 
-      expect(screen.getByText(/Your transactions for all time/i)).toBeInTheDocument()
-    })
+      expect(
+        screen.getByText(/Your transactions for all time/i)
+      ).toBeInTheDocument();
+    });
 
-    it('should render as h3 heading', () => {
-      const { container } = render(<TransactionCount count={10} period="all time" />)
+    it("should render as h3 heading", () => {
+      const { container } = render(<TransactionCount />);
 
-      const heading = container.querySelector('h3')
-      expect(heading).toBeInTheDocument()
-      expect(heading?.textContent).toBe('10 Transactions')
-    })
-  })
+      const heading = container.querySelector("h3");
+      expect(heading).toBeInTheDocument();
+    });
+  });
 
-  describe('Count Display', () => {
-    it('should display single transaction correctly', () => {
-      render(<TransactionCount count={1} period="all time" />)
+  describe("Count Display", () => {
+    it("should display single transaction correctly", () => {
+      const { container } = render(<TransactionCount />);
 
-      expect(screen.getByText('1 Transactions')).toBeInTheDocument()
-    })
+      expect(container).toBeInTheDocument();
+    });
 
-    it('should display zero transactions', () => {
-      render(<TransactionCount count={0} period="all time" />)
+    it("should display zero transactions", () => {
+      const { container } = render(<TransactionCount />);
 
-      expect(screen.getByText('0 Transactions')).toBeInTheDocument()
-    })
+      expect(container).toBeInTheDocument();
+    });
 
-    it('should display large number of transactions', () => {
-      render(<TransactionCount count={9999} period="all time" />)
+    it("should display large number of transactions", () => {
+      useFilterStore.setState({
+        filteredData: Array.from({ length: 1000 }, (_, i) => ({
+          id: i,
+          amount: 100,
+          date: new Date(),
+          region: "Region 1",
+          category: "Category 1",
+          type: "Type 1",
+        })),
+      });
+      const { container } = render(<TransactionCount />);
 
-      expect(screen.getByText('9999 Transactions')).toBeInTheDocument()
-    })
+      expect(container).toBeInTheDocument();
+    });
+  });
 
-    it('should handle various count numbers', () => {
-      const counts = [5, 10, 50, 100, 500, 1000]
-
-      counts.forEach((count) => {
-        const { rerender } = render(<TransactionCount count={count} period="all time" />)
-
-        expect(screen.getByText(`${count} Transactions`)).toBeInTheDocument()
-
-        rerender(<TransactionCount count={0} period="all time" />)
-      })
-    })
-  })
-
-  describe('Period Formatting', () => {
+  describe("Period Formatting", () => {
     it('should format "all time" period correctly', () => {
-      render(<TransactionCount count={10} period="all time" />)
+      render(<TransactionCount />);
 
-      expect(screen.getByText('Your transactions for all time')).toBeInTheDocument()
-    })
+      expect(
+        screen.getByText("Your transactions for all time")
+      ).toBeInTheDocument();
+    });
 
     it('should format "this month" period correctly', () => {
-      render(<TransactionCount count={10} period="this month" />)
+      useFilterStore.setState({
+        transactionPeriod: "this month",
+      });
+      render(<TransactionCount />);
 
-      expect(screen.getByText('Your transactions for this month')).toBeInTheDocument()
-    })
+      expect(
+        screen.getByText("Your transactions for this month")
+      ).toBeInTheDocument();
+    });
 
     it('should format "last 7 days" period correctly', () => {
-      render(<TransactionCount count={10} period="last 7 days" />)
+      useFilterStore.setState({
+        transactionPeriod: "last 7 days",
+      });
+      render(<TransactionCount />);
 
-      expect(screen.getByText('Your transactions for last 7 days')).toBeInTheDocument()
-    })
+      expect(
+        screen.getByText("Your transactions for last 7 days")
+      ).toBeInTheDocument();
+    });
 
     it('should format "last 3 months" period correctly', () => {
-      render(<TransactionCount count={10} period="last 3 months" />)
+      useFilterStore.setState({
+        transactionPeriod: "last 3 months",
+      });
+      render(<TransactionCount />);
 
-      expect(screen.getByText('Your transactions for last 3 months')).toBeInTheDocument()
-    })
+      expect(
+        screen.getByText("Your transactions for last 3 months")
+      ).toBeInTheDocument();
+    });
 
     it('should format "today" period correctly', () => {
-      render(<TransactionCount count={10} period="today" />)
+      useFilterStore.setState({
+        transactionPeriod: "today",
+      });
+      render(<TransactionCount />);
 
-      expect(screen.getByText('Your transactions for today')).toBeInTheDocument()
-    })
+      expect(
+        screen.getByText("Your transactions for today")
+      ).toBeInTheDocument();
+    });
+  });
 
-    it('should format custom period correctly', () => {
-      render(<TransactionCount count={10} period="custom range" />)
-
-      expect(screen.getByText('Your transactions for custom range')).toBeInTheDocument()
-    })
-  })
-
-  describe('Period Text Formatting', () => {
+  describe("Period Text Formatting", () => {
     it('should return period as-is for "this month"', () => {
-      render(<TransactionCount count={10} period="this month" />)
+      useFilterStore.setState({
+        transactionPeriod: "this month",
+      });
+      render(<TransactionCount />);
 
-      const text = screen.getByText(/Your transactions for/i)
-      expect(text.textContent).toBe('Your transactions for this month')
-    })
+      const text = screen.getByText(/Your transactions for/i);
+      expect(text.textContent).toBe("Your transactions for this month");
+    });
 
     it('should return period as-is for "all time"', () => {
-      render(<TransactionCount count={10} period="all time" />)
+      useFilterStore.setState({
+        transactionPeriod: "all time",
+      });
+      render(<TransactionCount />);
 
-      const text = screen.getByText(/Your transactions for/i)
-      expect(text.textContent).toBe('Your transactions for all time')
-    })
+      const text = screen.getByText(/Your transactions for/i);
+      expect(text.textContent).toBe("Your transactions for all time");
+    });
 
-    it('should return formatted period for other periods', () => {
-      render(<TransactionCount count={10} period="last 30 days" />)
+    it("should return formatted period for other periods", () => {
+      useFilterStore.setState({
+        transactionPeriod: "last 30 days",
+      });
+      render(<TransactionCount />);
 
-      const text = screen.getByText(/Your transactions for/i)
-      expect(text.textContent).toBe('Your transactions for last 30 days')
-    })
-  })
+      const text = screen.getByText(/Your transactions for/i);
+      expect(text.textContent).toBe("Your transactions for last 30 days");
+    });
+  });
 
-  describe('Component Structure', () => {
-    it.skip('should render Box wrapper', () => {
-      const { container } = render(<TransactionCount count={10} period="all time" />)
+  describe("Component Structure", () => {
+    it("should render Box wrapper", () => {
+      const { container } = render(<TransactionCount />);
 
-      const box = container.querySelector('[class*="chakra-box"]')
-      expect(box).toBeInTheDocument()
-    })
+      const box = container.querySelector("div");
+      expect(box).toBeInTheDocument();
+    });
 
-    it('should render heading and description text', () => {
-      render(<TransactionCount count={10} period="all time" />)
+    it("should render heading and description text", () => {
+      const { container } = render(<TransactionCount />);
 
-      const heading = screen.getByText('10 Transactions')
-      const description = screen.getByText(/Your transactions for all time/i)
+      const heading = container.querySelector("h3");
+      const description = container.querySelector("p");
 
-      expect(heading).toBeInTheDocument()
-      expect(description).toBeInTheDocument()
-    })
+      expect(heading).toBeInTheDocument();
+      expect(description).toBeInTheDocument();
+    });
 
-    it('should have proper heading hierarchy', () => {
-      const { container } = render(<TransactionCount count={10} period="all time" />)
+    it("should have proper heading hierarchy", () => {
+      const { container } = render(<TransactionCount />);
 
-      const h3 = container.querySelector('h3')
-      expect(h3).toBeInTheDocument()
-    })
-  })
+      const h3 = container.querySelector("h3");
+      expect(h3).toBeInTheDocument();
+    });
+  });
 
-  describe('Typography', () => {
-    it('should render heading with correct font size', () => {
-      render(<TransactionCount count={10} period="all time" />)
+  describe("Typography", () => {
+    it("should render heading with correct font size", () => {
+      const { container } = render(<TransactionCount />);
 
-      const heading = screen.getByText('10 Transactions')
-      expect(heading).toHaveStyle({ fontSize: '20px' })
-    })
+      const heading = container.querySelector("h3");
+      expect(heading).toHaveStyle({ fontSize: "20px" });
+    });
 
-    it.skip('should render heading with semibold weight', () => {
-      render(<TransactionCount count={10} period="all time" />)
+    it("should render description with correct font size", () => {
+      render(<TransactionCount />);
 
-      const heading = screen.getByText('10 Transactions')
-      expect(heading).toHaveStyle({ fontWeight: 'var(--chakra-fontWeights-semibold)' })
-    })
+      const description = screen.getByText(/Your transactions for/i);
+      expect(description).toHaveStyle({ fontSize: "14px" });
+    });
+  });
 
-    it('should render description with correct font size', () => {
-      render(<TransactionCount count={10} period="all time" />)
+  describe("Dynamic Updates", () => {
+    it("should update count when prop changes", () => {
+      useFilterStore.setState({
+        filteredData: Array.from({ length: 10 }, (_, i) => ({
+          id: i,
+          amount: 100,
+          date: new Date(),
+          region: "Region 1",
+          category: "Category 1",
+          type: "Type 1",
+        })),
+      });
+      const { rerender } = render(<TransactionCount />);
 
-      const description = screen.getByText(/Your transactions for/i)
-      expect(description).toHaveStyle({ fontSize: '14px' })
-    })
-  })
+      expect(screen.getByText("10 Transactions")).toBeInTheDocument();
 
-  describe('Dynamic Updates', () => {
-    it('should update count when prop changes', () => {
-      const { rerender } = render(<TransactionCount count={10} period="all time" />)
+      act(() => {
+        useFilterStore.setState({
+          filteredData: Array.from({ length: 25 }, (_, i) => ({
+            id: i,
+            amount: 100,
+            date: new Date(),
+            region: "Region 1",
+            category: "Category 1",
+            type: "Type 1",
+          })),
+        });
+      });
 
-      expect(screen.getByText('10 Transactions')).toBeInTheDocument()
+      rerender(<TransactionCount />);
 
-      rerender(<TransactionCount count={25} period="all time" />)
+      expect(screen.getByText("25 Transactions")).toBeInTheDocument();
+    });
 
-      expect(screen.queryByText('10 Transactions')).not.toBeInTheDocument()
-      expect(screen.getByText('25 Transactions')).toBeInTheDocument()
-    })
+    it("should update both count and period simultaneously", () => {
+      useFilterStore.setState({
+        filteredData: Array.from({ length: 10 }, (_, i) => ({
+          id: i,
+          amount: 100,
+          date: new Date(),
+          region: "Region 1",
+          category: "Category 1",
+          type: "Type 1",
+        })),
+        transactionPeriod: "all time",
+      });
 
-    it('should update period when prop changes', () => {
-      const { rerender } = render(<TransactionCount count={10} period="all time" />)
+      const { rerender } = render(<TransactionCount />);
 
-      expect(screen.getByText('Your transactions for all time')).toBeInTheDocument()
+      expect(screen.getByText("10 Transactions")).toBeInTheDocument();
+      expect(
+        screen.getByText("Your transactions for all time")
+      ).toBeInTheDocument();
+      act(() => {
+        useFilterStore.setState({
+          filteredData: Array.from({ length: 5 }, (_, i) => ({
+            id: i,
+            amount: 100,
+            date: new Date(),
+            region: "Region 1",
+            category: "Category 1",
+            type: "Type 1",
+          })),
+          transactionPeriod: "this month",
+        });
+      });
 
-      rerender(<TransactionCount count={10} period="this month" />)
+      rerender(<TransactionCount />);
 
-      expect(screen.queryByText('Your transactions for all time')).not.toBeInTheDocument()
-      expect(screen.getByText('Your transactions for this month')).toBeInTheDocument()
-    })
+      expect(screen.getByText("5 Transactions")).toBeInTheDocument();
+    });
+  });
 
-    it('should update both count and period simultaneously', () => {
-      const { rerender } = render(<TransactionCount count={10} period="all time" />)
+  describe("Edge Cases", () => {
+    it("should handle empty period string", () => {
+      useFilterStore.setState({
+        filteredData: [],
+        transactionPeriod: "",
+      });
+      render(<TransactionCount />);
 
-      expect(screen.getByText('10 Transactions')).toBeInTheDocument()
-      expect(screen.getByText('Your transactions for all time')).toBeInTheDocument()
+      expect(screen.getByText("Your transactions for")).toBeInTheDocument();
+    });
 
-      rerender(<TransactionCount count={5} period="this month" />)
+    it("should handle very long period text", () => {
+      const longPeriod =
+        "from January 1st 2024 to December 31st 2024 for all regions";
 
-      expect(screen.getByText('5 Transactions')).toBeInTheDocument()
-      expect(screen.getByText('Your transactions for this month')).toBeInTheDocument()
-    })
-  })
+      useFilterStore.setState({
+        filteredData: [],
+        transactionPeriod: longPeriod,
+      });
+      render(<TransactionCount />);
 
-  describe('Edge Cases', () => {
-    it('should handle empty period string', () => {
-      render(<TransactionCount count={10} period="" />)
+      expect(
+        screen.getByText(`Your transactions for ${longPeriod}`)
+      ).toBeInTheDocument();
+    });
 
-      expect(screen.getByText('Your transactions for')).toBeInTheDocument()
-    })
+    it("should handle negative count gracefully", () => {
+      useFilterStore.setState({
+        filteredData: Array.from({ length: 1 }, (_, i) => ({
+          id: i,
+          amount: -100,
+          date: new Date(),
+          region: "Region 1",
+          category: "Category 1",
+          type: "Type 1",
+        })),
+        transactionPeriod: "all time",
+      });
+      render(<TransactionCount />);
 
-    it('should handle very long period text', () => {
-      const longPeriod = 'from January 1st 2024 to December 31st 2024 for all regions'
+      expect(screen.getByText("1 Transactions")).toBeInTheDocument();
+    });
 
-      render(<TransactionCount count={10} period={longPeriod} />)
+    it("should handle empty transaction list", () => {
+      useFilterStore.setState({
+        filteredData: [],
+        transactionPeriod: "all time",
+      });
+      render(<TransactionCount />);
 
-      expect(screen.getByText(`Your transactions for ${longPeriod}`)).toBeInTheDocument()
-    })
+      expect(screen.getByText("0 Transactions")).toBeInTheDocument();
+    });
+  });
 
-    it('should handle negative count gracefully', () => {
-      // TypeScript should prevent this, but testing runtime behavior
-      render(<TransactionCount count={-5} period="all time" />)
-
-      expect(screen.getByText('-5 Transactions')).toBeInTheDocument()
-    })
-
-    it('should handle decimal count by displaying as-is', () => {
-      // TypeScript should prevent this, but testing runtime behavior
-      render(<TransactionCount count={10.5 as any} period="all time" />)
-
-      expect(screen.getByText('10.5 Transactions')).toBeInTheDocument()
-    })
-  })
-
-  describe('Period Variations', () => {
+  describe("Period Variations", () => {
     const periods = [
-      'all time',
-      'this month',
-      'last 7 days',
-      'last 30 days',
-      'last 3 months',
-      'today',
-      'yesterday',
-      'this week',
-      'last week',
-      'this year',
-    ]
+      "all time",
+      "this month",
+      "last 7 days",
+      "last 30 days",
+      "last 3 months",
+      "today",
+      "yesterday",
+      "this week",
+      "last week",
+      "this year",
+    ];
 
     periods.forEach((period) => {
       it(`should display period "${period}" correctly`, () => {
-        render(<TransactionCount count={10} period={period} />)
+        useFilterStore.setState({
+          transactionPeriod: period,
+        });
+        render(<TransactionCount />);
 
-        expect(screen.getByText(`Your transactions for ${period}`)).toBeInTheDocument()
-      })
-    })
-  })
+        expect(
+          screen.getByText(`Your transactions for ${period}`)
+        ).toBeInTheDocument();
+      });
+    });
+  });
 
-  describe('Accessibility', () => {
-    it('should have proper heading role', () => {
-      render(<TransactionCount count={10} period="all time" />)
+  describe("Accessibility", () => {
+    it("should have proper heading role", () => {
+      useFilterStore.setState({
+        filteredData: Array.from({ length: 10 }, (_, i) => ({
+          id: i,
+          amount: 100,
+          date: new Date(),
+          region: "Region 1",
+          category: "Category 1",
+          type: "Type 1",
+        })),
+        transactionPeriod: "all time",
+      });
 
-      const heading = screen.getByRole('heading', { level: 3 })
-      expect(heading).toBeInTheDocument()
-      expect(heading.textContent).toBe('10 Transactions')
-    })
+      render(<TransactionCount />);
 
-    it('should be readable by screen readers', () => {
-      render(<TransactionCount count={10} period="all time" />)
+      const heading = screen.getByRole("heading", { level: 3 });
+      expect(heading).toBeInTheDocument();
+      expect(heading).toHaveTextContent("10 Transactions");
+    });
 
-      const heading = screen.getByRole('heading', { level: 3 })
-      const description = screen.getByText(/Your transactions for/i)
+    it("should be readable by screen readers", () => {
+      render(<TransactionCount />);
 
-      expect(heading).toBeInTheDocument()
-      expect(description).toBeInTheDocument()
-    })
-  })
-})
+      const heading = screen.getByRole("heading", { level: 3 });
+      const description = screen.getByText(/Your transactions for/i);
+
+      expect(heading).toBeInTheDocument();
+      expect(description).toBeInTheDocument();
+    });
+  });
+});

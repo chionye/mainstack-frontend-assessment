@@ -1,15 +1,13 @@
 /** @format */
 
-import { useCallback, useMemo, useEffect } from "react";
-import {
-  Box,
-  Flex,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { useMemo, useEffect } from "react";
+import { Box, Flex } from "@chakra-ui/react";
 import BalanceSection from "@/components/layout/revenue/revenue-balance";
 import { useWallet } from "@/api/hooks/useWallet";
 import { useTransactions } from "@/api/hooks/useTransactions";
 import { useFilterStore } from "@/store/useFilterStore";
+import { useActionsStore } from "@/store/useActionsStore";
+import { useWalletStore } from "@/store/useWalletStore";
 import Loader from "@/components/shared/Loader";
 import FilterDrawer from "@/components/layout/revenue/transactions/FilterDrawer";
 import TransactionList from "@/components/layout/revenue/transactions/TransactionList";
@@ -30,23 +28,30 @@ const Revenue = () => {
     refetch: refetchTransactions,
   } = useTransactions();
 
-  const { open, onOpen, onClose } = useDisclosure();
+  const { setTransactions } = useFilterStore();
+  const { setWalletData } = useWalletStore();
 
-  const {
-    filteredData,
-    transactionPeriod,
-    selectedItems,
-    filterCount,
-    startDate,
-    endDate,
-    setTransactions,
-    setTransactionPeriod,
-    setStartDate,
-    setEndDate,
-    toggleSelection,
-    applyFilter,
-    clearFilter,
-  } = useFilterStore();
+  const { setWithdrawHandler, setExportHandler, setRetryHandler } =
+    useActionsStore();
+
+  useEffect(() => {
+    const withdrawHandler = () => console.log("Withdraw clicked");
+    const exportHandler = () => console.log("Export transactions");
+    const retryHandler = () => {
+      refetchWallet();
+      refetchTransactions();
+    };
+
+    setWithdrawHandler(withdrawHandler);
+    setExportHandler(exportHandler);
+    setRetryHandler(retryHandler);
+  }, [
+    refetchWallet,
+    refetchTransactions,
+    setWithdrawHandler,
+    setExportHandler,
+    setRetryHandler,
+  ]);
 
   useEffect(() => {
     setTransactions(transactions);
@@ -62,23 +67,11 @@ const Revenue = () => {
     [wallet]
   );
 
-  const handleWithdraw = useCallback(() => {
-    console.log("Withdraw clicked");
-  }, []);
-
-  const handleExport = useCallback(() => {
-    console.log("Export transactions");
-  }, []);
-
-  const handleRetry = useCallback(() => {
-    refetchWallet();
-    refetchTransactions();
-  }, [refetchWallet, refetchTransactions]);
-
-  const handleApplyFilter = useCallback(() => {
-    applyFilter();
-    onClose();
-  }, [applyFilter, onClose]);
+  useEffect(() => {
+    if (wallet) {
+      setWalletData(wallet.balance ?? 0, walletStats);
+    }
+  }, [wallet, walletStats, setWalletData]);
 
   if (walletLoading || transactionsLoading) {
     return (
@@ -91,7 +84,6 @@ const Revenue = () => {
   if (walletError || transactionsError) {
     return (
       <ErrorState
-        handleRetry={handleRetry}
         walletError={walletError}
         transactionsError={transactionsError}
       />
@@ -100,44 +92,10 @@ const Revenue = () => {
 
   return (
     <Box>
-      <BalanceSection
-        balance={wallet?.balance ?? 0}
-        walletStats={walletStats}
-        chartData={filteredData}
-        onWithdraw={handleWithdraw}
-        amountFontSize='36px'
-      />
-      <TransactionHeader
-        count={filteredData.length}
-        period={transactionPeriod}
-        onFilterApply={onOpen}
-        onFilterClear={clearFilter}
-        onExport={handleExport}
-        filterCount={filterCount}
-      />
-
-      <FilterDrawer
-        isOpen={open}
-        onClose={onClose}
-        transactionPeriod={transactionPeriod}
-        onPeriodChange={setTransactionPeriod}
-        onStartDateChange={setStartDate}
-        onEndDateChange={setEndDate}
-        selectedTypes={selectedItems.trans_type}
-        selectedStatuses={selectedItems.trans_status}
-        onTypeToggle={(type) => toggleSelection(type, "trans_type")}
-        onStatusToggle={(status) => toggleSelection(status, "trans_status")}
-        onApply={handleApplyFilter}
-        onClear={clearFilter}
-        startDate={startDate}
-        endDate={endDate}
-      />
-
-      <TransactionList
-        transactions={filteredData}
-        onClearFilter={clearFilter}
-        amountFontSize='16px'
-      />
+      <BalanceSection />
+      <TransactionHeader />
+      <FilterDrawer />
+      <TransactionList />
     </Box>
   );
 };
